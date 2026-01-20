@@ -81,19 +81,60 @@ description: Build something cool with X. Use when Y.
 
 ### 4. docs/concepts.md
 
-Explain the core concepts in depth:
-- What the technology is and why it exists
-- Key terminology
-- How it works conceptually
-- When to use it vs alternatives
+Explain core concepts in depth. Example structure:
+
+```markdown
+# Core Concepts
+
+## What is [Technology]?
+
+[Technology] is a [brief description]. It solves [problem] by [approach].
+
+## Key Terminology
+
+- **Term 1**: Definition and context
+- **Term 2**: Definition and context
+
+## How It Works
+
+[Explain the mental model - how to think about this technology]
+
+## When to Use
+
+Use [Technology] when:
+- Condition 1
+- Condition 2
+
+Avoid when:
+- Anti-condition 1
+```
 
 ### 5. docs/patterns.md
 
-Provide reusable code patterns:
-- Common implementation patterns
-- Best practices with code examples
-- Integration patterns
-- Error handling patterns
+Provide reusable code patterns. Example structure:
+
+```markdown
+# Common Patterns
+
+## Pattern 1: [Name]
+
+### When to Use
+[Describe the scenario]
+
+### Implementation
+```python
+# Complete, working code example
+def example():
+    pass
+```
+
+### Pitfalls
+- Common mistake and how to avoid it
+
+## Pattern 2: [Name]
+
+[Same structure...]
+```
 
 ## Improving Existing Skills
 
