@@ -1,0 +1,102 @@
+# EXERCISE 3: Complete this deployment pipeline
+# Goal: Deploy to staging automatically, production with approval
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t myapp:${{ github.sha }} .
+
+      - name: Save Docker image
+        run: docker save myapp:${{ github.sha }} > image.tar
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: image.tar
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Running tests..."
+      # Add actual tests here
+
+  # TODO: Deploy to staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: test
+    # TODO: Add environment configuration
+    # environment:
+    #   name: staging
+    #   url: https://staging.example.com
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+
+      - name: Load Docker image
+        run: docker load < image.tar
+
+      - name: Deploy to staging
+        run: |
+          echo "Deploying to staging..."
+          # TODO: Add actual deployment commands
+          # Use ${{ secrets.STAGING_API_KEY }} for staging-specific secrets
+
+  # TODO: Smoke tests on staging
+  smoke-test:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+
+    steps:
+      - name: Run smoke tests
+        run: |
+          echo "Running smoke tests against staging..."
+          # TODO: Add actual smoke tests
+          # curl https://staging.example.com/health
+
+  # TODO: Deploy to production with approval
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: smoke-test
+    # TODO: Add environment configuration with approval
+    # environment:
+    #   name: production
+    #   url: https://example.com
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+
+      - name: Load Docker image
+        run: docker load < image.tar
+
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production..."
+          # TODO: Add actual deployment commands
+          # Use ${{ secrets.PRODUCTION_API_KEY }} for production-specific secrets

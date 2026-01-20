@@ -1,0 +1,103 @@
+# Solution 3: Kafka Consumer and Producer Setup for Fraud Detection
+# Complete configuration with Kafka topics, DynamoDB, and Redis
+
+name: fraud-detector
+platform: eks
+description: Real-time fraud detection service
+
+team: security-team
+tags:
+  environment: production
+  tier: critical
+  compliance: sox
+
+compute:
+  replicas: 5
+  resources:
+    requests:
+      cpu: "1000m"
+      memory: "2Gi"
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
+
+  # Bonus: HPA based on Kafka consumer lag
+  autoscaling:
+    enabled: true
+    min_replicas: 3
+    max_replicas: 20
+    metrics:
+      - type: External
+        external:
+          metric:
+            name: kafka_consumer_lag
+          target:
+            type: AverageValue
+            averageValue: "5000"
+
+dependencies:
+  # Transaction events - consume all events (earliest offset)
+  - type: kafka_topic
+    name: transaction-events
+    mode: consumer
+    consumer_group: fraud-detector
+    bootstrap_servers: ${ssm:/kafka/bootstrap-servers}
+    auto_offset_reset: earliest
+    enable_auto_commit: false
+    max_poll_records: 50
+
+  # User activity events - only new events
+  - type: kafka_topic
+    name: user-activity-events
+    mode: consumer
+    consumer_group: fraud-detector
+    bootstrap_servers: ${ssm:/kafka/bootstrap-servers}
+    auto_offset_reset: latest
+
+  # Fraud alerts - high reliability producer
+  - type: kafka_topic
+    name: fraud-alerts
+    mode: producer
+    bootstrap_servers: ${ssm:/kafka/bootstrap-servers}
+    acks: all
+    retries: 5
+    compression_type: lz4
+
+  # Analytics events - fire and forget
+  - type: kafka_topic
+    name: analytics-events
+    mode: producer
+    bootstrap_servers: ${ssm:/kafka/bootstrap-servers}
+    acks: "1"
+
+  # Fraud detection results storage
+  - type: aws_dynamodb_table
+    name: fraud-detection-results
+    mode: read_write
+    indexes:
+      - name: user-id-index
+        mode: read
+      - name: timestamp-index
+        mode: read
+
+  # Feature cache for ML models
+  - type: aws_elasticache
+    name: fraud-feature-cache
+    engine: redis
+    mode: read_write
+    cluster:
+      mode: cluster
+
+environment:
+  LOG_LEVEL: info
+  LOG_FORMAT: json
+  # Kafka configuration
+  KAFKA_BOOTSTRAP: ${ssm:/kafka/bootstrap-servers}
+  KAFKA_CONSUMER_GROUP: fraud-detector
+  # DynamoDB
+  RESULTS_TABLE: fraud-detection-results
+  # Redis
+  REDIS_URL: ${elasticache:fraud-feature-cache:url}
+  # Service configuration
+  ALERT_THRESHOLD: "0.85"
+  FEATURE_WINDOW_HOURS: "24"

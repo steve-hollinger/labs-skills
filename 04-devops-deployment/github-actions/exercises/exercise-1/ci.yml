@@ -1,0 +1,79 @@
+# EXERCISE 1: Complete this multi-language CI pipeline
+# Goal: Test Python and Node.js with matrix builds
+
+name: Multi-Language CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # TODO: Python tests with matrix
+  python-test:
+    name: Python ${{ matrix.python }} on ${{ matrix.os }}
+    # TODO: Add matrix strategy for os and python version
+
+    runs-on: ubuntu-latest  # TODO: Use matrix.os
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'  # TODO: Use matrix.python
+          # TODO: Add pip caching
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Run tests
+        run: |
+          cd backend
+          pytest --cov --junitxml=test-results.xml
+
+      # TODO: Upload test results as artifact
+
+  # TODO: Node.js tests with matrix
+  node-test:
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    # TODO: Add matrix strategy
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # TODO: Use matrix.node
+          # TODO: Add npm caching
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd frontend
+          npm test -- --coverage
+
+      # TODO: Upload test results as artifact
+
+  # TODO: Integration tests (run after both python and node tests)
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    # TODO: Add needs for python-test and node-test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run integration tests
+        run: echo "Running integration tests..."

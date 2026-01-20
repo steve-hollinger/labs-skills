@@ -1,0 +1,41 @@
+# EXERCISE 2: Add health checks and proper dependencies
+# Current configuration has race conditions - services may start before dependencies are ready
+
+services:
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/app
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    # TODO: Add health check
+    # TODO: Fix depends_on to wait for healthy services
+    depends_on:
+      - db
+      - rabbitmq
+
+  worker:
+    build: ./worker
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    # TODO: Add depends_on with proper conditions
+    depends_on:
+      - rabbitmq
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # TODO: Add health check for PostgreSQL
+
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    # TODO: Add health check for RabbitMQ
+
+volumes:
+  postgres_data:

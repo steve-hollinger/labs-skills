@@ -1,0 +1,61 @@
+# SOLUTION 2: Health Checks and Dependencies
+
+services:
+  api:
+    build: ../exercise-2/api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/app
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    # Health check for API
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    # Wait for dependencies to be healthy
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  worker:
+    build: ../exercise-2/worker
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    # Worker depends on RabbitMQ being healthy
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # PostgreSQL health check
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    # RabbitMQ health check
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s  # RabbitMQ takes longer to start
+
+volumes:
+  postgres_data:

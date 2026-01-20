@@ -1,0 +1,74 @@
+# Example 1: DynamoDB Dependencies
+# A user service with multiple DynamoDB tables and indexes
+# Demonstrates table, index, and stream access patterns
+
+name: user-service
+platform: ecs
+description: User management service with DynamoDB backend
+
+team: platform-team
+tags:
+  environment: production
+  tier: api
+  cost-center: platform
+
+compute:
+  cpu: 512
+  memory: 1024
+  desired_count: 3
+
+networking:
+  port: 8080
+  health_check:
+    path: /health
+    interval: 30
+
+# DynamoDB dependencies with various access patterns
+dependencies:
+  # Primary users table with full access
+  - type: aws_dynamodb_table
+    name: users
+    mode: read_write
+
+    # Global Secondary Indexes for query patterns
+    indexes:
+      # Query users by email
+      - name: email-index
+        mode: read
+
+      # Query users by creation date (for reporting)
+      - name: created-at-index
+        mode: read
+
+      # Query users by status (for admin tools)
+      - name: status-index
+        mode: read
+
+    # Enable stream processing for event publishing
+    streams:
+      enabled: true
+      mode: consumer
+      view_type: NEW_AND_OLD_IMAGES
+
+  # Sessions table for authentication
+  - type: aws_dynamodb_table
+    name: user-sessions
+    mode: read_write
+    # TTL configured at table level for automatic cleanup
+
+  # Audit log - append only
+  - type: aws_dynamodb_table
+    name: user-audit-log
+    mode: write  # Service only writes, never reads
+
+  # Configuration table - read only
+  - type: aws_dynamodb_table
+    name: feature-flags
+    mode: read  # Service reads config, another service manages it
+
+environment:
+  USERS_TABLE: users
+  SESSIONS_TABLE: user-sessions
+  AUDIT_TABLE: user-audit-log
+  FEATURES_TABLE: feature-flags
+  AWS_REGION: us-east-1

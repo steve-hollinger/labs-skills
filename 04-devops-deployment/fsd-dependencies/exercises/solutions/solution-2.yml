@@ -1,0 +1,85 @@
+# Solution 2: S3 Buckets with Lifecycle Policies for Media Processing
+# Complete configuration with encryption, lifecycle, and object lock
+
+name: media-processor
+platform: lambda
+description: Processes uploaded media files
+
+team: media-team
+tags:
+  environment: production
+  tier: processing
+
+compute:
+  memory: 3008
+  timeout: 300
+  runtime: python3.11
+
+triggers:
+  - type: sqs
+    queue_arn: arn:aws:sqs:us-east-1:123456789012:media-processing-queue
+    batch_size: 1
+
+dependencies:
+  # Input bucket - read uploaded media
+  - type: aws_s3_bucket
+    name: media-uploads
+    mode: read
+    prefix: incoming/
+    encryption:
+      enabled: true
+      kms_key: ${kms:media-key}
+
+  # Output bucket - write processed media
+  - type: aws_s3_bucket
+    name: media-processed
+    mode: write
+    prefix: processed/
+    encryption:
+      enabled: true
+      kms_key: ${kms:media-key}
+    lifecycle:
+      - transition_to_ia: 30
+
+  # Thumbnails bucket - public for CDN
+  - type: aws_s3_bucket
+    name: media-thumbnails
+    mode: write
+    prefix: thumbnails/
+    public_read: true
+
+  # Archive bucket - compliance with object lock
+  - type: aws_s3_bucket
+    name: media-archive
+    mode: write
+    encryption:
+      enabled: true
+      kms_key: ${kms:archive-key}
+    lifecycle:
+      - transition_to_glacier: 7
+    object_lock:
+      enabled: true
+      mode: GOVERNANCE
+      retention_days: 365
+
+  # Processing queue - receive jobs
+  - type: aws_sqs_queue
+    name: media-processing-queue
+    mode: consumer
+    batch_size: 1
+    visibility_timeout: 360
+
+  # Dead letter queue - failed messages
+  - type: aws_sqs_queue
+    name: media-processing-dlq
+    mode: producer
+
+environment:
+  LOG_LEVEL: info
+  # Bucket names
+  UPLOADS_BUCKET: media-uploads
+  PROCESSED_BUCKET: media-processed
+  THUMBNAILS_BUCKET: media-thumbnails
+  ARCHIVE_BUCKET: media-archive
+  # Queue URLs
+  DLQ_URL: ${sqs:media-processing-dlq:url}

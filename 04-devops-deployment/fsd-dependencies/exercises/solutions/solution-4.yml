@@ -1,0 +1,178 @@
+# Solution 4: Multi-Service Dependency Graph for Order Fulfillment
+# Complete orchestration service with services, databases, messaging, and caching
+
+name: order-fulfillment
+platform: ecs
+description: Orchestrates order fulfillment across multiple services
+
+team: fulfillment-team
+tags:
+  environment: production
+  tier: orchestration
+  cost-center: orders
+
+compute:
+  cpu: 1024
+  memory: 2048
+  desired_count: 5
+
+networking:
+  port: 8080
+  health_check:
+    path: /health
+    interval: 15
+
+dependencies:
+  # ============================================
+  # SERVICE DEPENDENCIES
+  # ============================================
+
+  # Inventory service - check stock availability
+  - type: service
+    name: inventory-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    timeout: 5000
+    circuit_breaker:
+      enabled: true
+      failure_threshold: 3
+      recovery_timeout: 30000
+
+  # Payment service - process payments (critical, sensitive)
+  - type: service
+    name: payment-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    timeout: 30000
+    circuit_breaker:
+      enabled: true
+      failure_threshold: 2
+      recovery_timeout: 60000
+
+  # Shipping service - create labels and schedule pickup
+  - type: service
+    name: shipping-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    timeout: 10000
+    circuit_breaker:
+      enabled: true
+      failure_threshold: 5
+      recovery_timeout: 30000
+
+  # Notification service - send confirmations (async, non-critical)
+  - type: service
+    name: notification-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    timeout: 5000
+    async: true
+
+  # ============================================
+  # DATA DEPENDENCIES
+  # ============================================
+
+  # Orders table - main order data
+  - type: aws_dynamodb_table
+    name: orders
+    mode: read_write
+    indexes:
+      - name: customer-index
+        mode: read
+      - name: status-index
+        mode: read
+      - name: created-at-index
+        mode: read
+    streams:
+      enabled: true
+      mode: consumer
+      view_type: NEW_AND_OLD_IMAGES
+
+  # Fulfillment state - saga state machine
+  - type: aws_dynamodb_table
+    name: fulfillment-state
+    mode: read_write
+
+  # ============================================
+  # MESSAGING DEPENDENCIES
+  # ============================================
+
+  # Order events - high reliability
+  - type: kafka_topic
+    name: order-events
+    mode: producer
+    bootstrap_servers: ${ssm:/kafka/bootstrap-servers}
+    acks: all
+    retries: 3
+    compression_type: lz4
+
+  # Fulfillment events - high reliability
+  - type: kafka_topic
+    name: fulfillment-events
+    mode: producer
+    bootstrap_servers: ${ssm:/kafka/bootstrap-servers}
+    acks: all
+    retries: 3
+
+  # Analytics events - fire and forget
+  - type: kafka_topic
+    name: analytics-events
+    mode: producer
+    bootstrap_servers: ${ssm:/kafka/bootstrap-servers}
+    acks: "1"
+
+  # ============================================
+  # CACHING DEPENDENCIES
+  # ============================================
+
+  # Fulfillment cache - order state and idempotency
+  - type: aws_elasticache
+    name: fulfillment-cache
+    engine: redis
+    mode: read_write
+
+  # ============================================
+  # BONUS: Dead Letter Queue for failed orders
+  # ============================================
+
+  - type: aws_sqs_queue
+    name: fulfillment-dlq
+    mode: producer
+
+environment:
+  LOG_LEVEL: info
+  LOG_FORMAT: json
+
+  # Service URLs (from discovery)
+  INVENTORY_SERVICE_URL: ${service:inventory-service:url}
+  PAYMENT_SERVICE_URL: ${service:payment-service:url}
+  SHIPPING_SERVICE_URL: ${service:shipping-service:url}
+  NOTIFICATION_SERVICE_URL: ${service:notification-service:url}
+
+  # DynamoDB tables
+  ORDERS_TABLE: orders
+  FULFILLMENT_STATE_TABLE: fulfillment-state
+
+  # Kafka
+  KAFKA_BOOTSTRAP: ${ssm:/kafka/bootstrap-servers}
+  ORDER_EVENTS_TOPIC: order-events
+  FULFILLMENT_EVENTS_TOPIC: fulfillment-events
+  ANALYTICS_EVENTS_TOPIC: analytics-events
+
+  # Redis
+  REDIS_URL: ${elasticache:fulfillment-cache:url}
+
+  # DLQ
+  DLQ_URL: ${sqs:fulfillment-dlq:url}
+
+  # Observability
+  OTEL_SERVICE_NAME: order-fulfillment
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317

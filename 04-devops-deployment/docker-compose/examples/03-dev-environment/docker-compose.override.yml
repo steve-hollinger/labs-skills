@@ -1,0 +1,14 @@
+# Development overrides (auto-loaded)
+# This file is automatically merged with docker-compose.yml
+
+services:
+  app:
+    # Enable Python debugging
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      # Enable debugpy for remote debugging
+      - DEBUGPY_ENABLE=true
+    # Use development target
+    build:
+      target: development

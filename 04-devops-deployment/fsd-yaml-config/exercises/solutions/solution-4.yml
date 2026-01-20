@@ -1,0 +1,102 @@
+# Solution 4: Batch Processing Pipeline
+# Transaction ETL job with array processing and retry logic
+
+name: transaction-etl
+platform: batch
+description: Daily ETL job for processing transaction logs into analytics warehouse
+
+team: data-engineering
+tags:
+  environment: production
+  schedule: daily
+  tier: data-pipeline
+  cost-center: analytics
+
+# Batch compute configuration
+compute:
+  vcpus: 4
+  memory: 16384       # 16 GB
+
+  compute_environment:
+    type: FARGATE
+    fargate_platform_version: LATEST
+
+# Job configuration
+job:
+  type: array
+  array_properties:
+    size: 24          # One job per hour of data
+
+  retry_attempts: 3
+  timeout: 14400      # 4 hours in seconds
+
+  # Fine-grained retry strategy
+  retry_strategy:
+    attempts: 3
+    evaluate_on_exit:
+      # Retry on general errors
+      - on_exit_code: "1"
+        action: RETRY
+
+      # Retry on OOM killed
+      - on_exit_code: "137"
+        action: RETRY
+
+      # Retry on EC2 host issues
+      - on_status_reason: "Host EC2*"
+        action: RETRY
+
+      # Don't retry validation errors
+      - on_exit_code: "2"
+        action: EXIT
+
+      # Default: exit on unknown errors
+      - action: EXIT
+
+  # Job scheduling
+  scheduling:
+    type: cron
+    expression: "0 5 * * *"  # 5 AM UTC daily
+    timezone: UTC
+
+# Container configuration
+container:
+  image: ${ecr:transaction-etl}:latest
+  command:
+    - python
+    - -m
+    - etl.main
+    - --date
+    - ${batch:scheduled_date}
+    - --partition
+    - ${batch:array_index}
+
+# Environment variables
+environment:
+  SOURCE_BUCKET: raw-transaction-logs
+  OUTPUT_BUCKET: processed-transactions
+  REDSHIFT_CLUSTER: ${ssm:/etl/redshift-cluster}
+  DATABASE_URL: ${secrets:transaction-etl/database-url}
+  LOG_LEVEL: info
+  PARALLELISM: "4"
+  AWS_REGION: us-east-1
+
+# Bonus: Dependent summary job
+dependent_jobs:
+  - name: transaction-etl-summary
+    type: single
+    depends_on:
+      - job_id: transaction-etl
+        type: N_TO_N  # Wait for all array jobs
+    compute:
+      vcpus: 2
+      memory: 4096
+    container:
+      image: ${ecr:transaction-etl}:latest
+      command:
+        - python
+        - -m
+        - etl.summary
+        - --date
+        - ${batch:scheduled_date}
+    timeout: 3600

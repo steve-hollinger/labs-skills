@@ -1,0 +1,73 @@
+# Solution 3: Lambda Function with Multiple Triggers
+# Document processing service with API, S3, SQS, and scheduled triggers
+
+name: document-processor
+platform: lambda
+description: Multi-trigger document processing service with OCR capabilities
+
+team: document-team
+tags:
+  environment: production
+  data-classification: confidential
+  cost-center: document-processing
+
+# Lambda compute configuration
+compute:
+  memory: 2048         # 2 GB for large document processing
+  timeout: 120         # 2 minutes
+  runtime: python3.11
+  architecture: arm64  # Cost optimization
+
+  # Concurrency controls
+  reserved_concurrency: 50
+  provisioned_concurrency: 3  # For API latency
+
+# Multiple event triggers
+triggers:
+  # API Gateway trigger for manual processing
+  - type: api_gateway
+    path: /documents/process
+    method: POST
+    authorization: AWS_IAM
+
+  # S3 trigger for automatic processing of uploaded PDFs
+  - type: s3
+    bucket: document-uploads-bucket
+    events:
+      - s3:ObjectCreated:*
+    filter:
+      prefix: incoming/
+      suffix: .pdf
+
+  # SQS trigger for batch processing
+  - type: sqs
+    queue_arn: arn:aws:sqs:us-east-1:123456789012:document-batch-queue
+    batch_size: 5
+    batch_window: 10
+
+  # Scheduled trigger for daily cleanup
+  - type: schedule
+    expression: cron(0 2 * * ? *)
+    description: Daily cleanup of temporary files
+
+# Dead letter queue for failed invocations
+dead_letter:
+  target_arn: arn:aws:sqs:us-east-1:123456789012:document-processor-dlq
+
+# VPC configuration (bonus challenge)
+vpc:
+  security_group_ids:
+    - sg-lambda-processor
+  subnet_ids:
+    - subnet-private-1a
+    - subnet-private-1b
+
+# Environment variables
+environment:
+  OUTPUT_BUCKET: processed-documents
+  OCR_ENABLED: "true"
+  MAX_FILE_SIZE_MB: "50"
+  TEMP_STORAGE: /tmp
+  API_KEY: ${secrets:document-processor/api-key}
+  LOG_LEVEL: info
+  POWERTOOLS_SERVICE_NAME: document-processor

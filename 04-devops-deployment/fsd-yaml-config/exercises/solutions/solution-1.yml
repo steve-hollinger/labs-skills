@@ -1,0 +1,43 @@
+# Solution 1: Docker Compose to FSD YAML Conversion
+# Converted from the notification-service Docker Compose configuration
+
+name: notification-service
+platform: ecs
+description: Email and push notification service for user communications
+
+team: communications-team
+tags:
+  environment: production
+  tier: backend
+  cost-center: operations
+  source: docker-compose-migration
+
+# Compute resources mapped from Docker Compose
+# Docker: cpus '0.5' = 512 ECS CPU units
+# Docker: memory 512M = 512 MB
+compute:
+  cpu: 512            # 0.5 vCPU (Docker: cpus '0.5')
+  memory: 512         # 512 MB (Docker: memory 512M)
+  desired_count: 2    # (Docker: replicas 2)
+
+# Networking configuration
+networking:
+  port: 3000          # (Docker: ports "3000:3000")
+  protocol: http
+
+  # Health check converted from Docker healthcheck
+  health_check:
+    path: /health     # (Docker: curl http://localhost:3000/health)
+    interval: 30      # (Docker: interval 30s)
+    timeout: 10       # (Docker: timeout 10s)
+    healthy_threshold: 2
+    unhealthy_threshold: 3  # (Docker: retries 3)
+
+# Environment variables
+# Note: SMTP credentials should be in Secrets Manager, not plain text
+environment:
+  NODE_ENV: production
+  PORT: "3000"
+  LOG_LEVEL: info
+  SMTP_HOST: smtp.example.com
+  SMTP_USER: ${secrets:notification-service/smtp-user}  # Secured in Secrets Manager

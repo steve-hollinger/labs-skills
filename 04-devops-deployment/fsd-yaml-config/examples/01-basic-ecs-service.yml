@@ -1,0 +1,38 @@
+# Example 1: Basic ECS Service
+# A simple REST API running on ECS Fargate
+# This is the minimal configuration for a production-capable service
+
+name: user-api
+platform: ecs
+description: User management REST API
+
+# Team and metadata for organizational purposes
+team: platform-team
+tags:
+  environment: development
+  cost-center: engineering
+
+# Compute resources - ECS Fargate compatible
+compute:
+  cpu: 256          # vCPU units (256 = 0.25 vCPU)
+  memory: 512       # Memory in MB
+  desired_count: 2  # Number of running tasks
+
+# Networking configuration for HTTP service
+networking:
+  port: 8080
+  protocol: http
+
+  # Health check ensures unhealthy containers are replaced
+  health_check:
+    path: /health
+    interval: 30      # Check every 30 seconds
+    timeout: 5        # Wait 5 seconds for response
+    healthy_threshold: 2    # 2 successes = healthy
+    unhealthy_threshold: 3  # 3 failures = unhealthy
+
+# Environment variables available to the application
+environment:
+  LOG_LEVEL: info
+  PORT: "8080"
+  AWS_REGION: us-east-1

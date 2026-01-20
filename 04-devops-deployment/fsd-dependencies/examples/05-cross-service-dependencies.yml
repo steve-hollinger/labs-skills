@@ -1,0 +1,165 @@
+# Example 5: Cross-Service Dependencies
+# An API gateway service that aggregates multiple backend services
+# Demonstrates service discovery and inter-service communication
+
+name: checkout-api
+platform: ecs
+description: Checkout API aggregating cart, inventory, payment, and shipping services
+
+team: commerce-team
+tags:
+  environment: production
+  tier: api-gateway
+  cost-center: commerce
+
+compute:
+  cpu: 1024
+  memory: 2048
+  desired_count: 5
+
+networking:
+  port: 8080
+  protocol: http
+  health_check:
+    path: /health
+    interval: 15
+  load_balancer:
+    type: application
+    internal: false
+    idle_timeout: 60
+
+scaling:
+  min_count: 3
+  max_count: 20
+  policies:
+    - type: target_tracking
+      metric: request_count
+      target: 1000
+
+# Cross-service and supporting dependencies
+dependencies:
+  # User service for authentication and profile data
+  - type: service
+    name: user-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    # Circuit breaker configuration
+    circuit_breaker:
+      enabled: true
+      failure_threshold: 5
+      recovery_timeout: 30000
+    # Request timeout
+    timeout: 5000
+
+  # Cart service for shopping cart operations
+  - type: service
+    name: cart-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    circuit_breaker:
+      enabled: true
+      failure_threshold: 5
+      recovery_timeout: 30000
+    timeout: 3000
+
+  # Inventory service for stock availability
+  - type: service
+    name: inventory-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    circuit_breaker:
+      enabled: true
+      failure_threshold: 3
+      recovery_timeout: 60000
+    timeout: 5000
+
+  # Payment service for transaction processing
+  - type: service
+    name: payment-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    circuit_breaker:
+      enabled: true
+      failure_threshold: 2  # Very sensitive
+      recovery_timeout: 120000
+    timeout: 30000  # Longer timeout for payment processing
+
+  # Shipping service for delivery estimates
+  - type: service
+    name: shipping-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    circuit_breaker:
+      enabled: true
+      failure_threshold: 5
+      recovery_timeout: 30000
+    timeout: 5000
+
+  # External payment gateway (third-party)
+  - type: service
+    name: stripe-gateway
+    mode: client
+    external: true
+    endpoint: ${secrets:checkout/stripe-endpoint}
+    api_key: ${secrets:checkout/stripe-api-key}
+    timeout: 45000
+
+  # Notification service for order confirmations
+  - type: service
+    name: notification-service
+    mode: client
+    discovery:
+      method: dns
+      namespace: production.internal
+    # Fire and forget - no circuit breaker
+    async: true
+    timeout: 5000
+
+  # Cache for session and cart data
+  - type: aws_elasticache
+    name: checkout-cache
+    engine: redis
+    mode: read_write
+
+  # Order events topic
+  - type: kafka_topic
+    name: order-events
+    mode: producer
+    bootstrap_servers: ${ssm:/kafka/bootstrap-servers}
+
+  # Metrics and tracking
+  - type: aws_kinesis_stream
+    name: checkout-analytics
+    mode: producer
+
+environment:
+  # Service URLs from discovery
+  USER_SERVICE_URL: ${service:user-service:url}
+  CART_SERVICE_URL: ${service:cart-service:url}
+  INVENTORY_SERVICE_URL: ${service:inventory-service:url}
+  PAYMENT_SERVICE_URL: ${service:payment-service:url}
+  SHIPPING_SERVICE_URL: ${service:shipping-service:url}
+  NOTIFICATION_SERVICE_URL: ${service:notification-service:url}
+
+  # External services
+  STRIPE_ENDPOINT: ${secrets:checkout/stripe-endpoint}
+
+  # Infrastructure
+  REDIS_URL: ${elasticache:checkout-cache:url}
+  KAFKA_BOOTSTRAP: ${ssm:/kafka/bootstrap-servers}
+
+  # Configuration
+  LOG_LEVEL: info
+  LOG_FORMAT: json
+  OTEL_SERVICE_NAME: checkout-api
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317

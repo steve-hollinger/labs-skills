@@ -1,0 +1,100 @@
+# Example 3: Development Environment
+# Complete dev environment with hot reload, debugging, and tooling
+
+services:
+  # Application with hot reload
+  app:
+    build:
+      context: ./app
+      target: development
+    ports:
+      - "8003:8000"
+      - "5678:5678"  # Debug port (debugpy)
+    volumes:
+      # Mount source for hot reload
+      - ./app/src:/app/src:cached
+      # Preserve installed packages
+      - app_packages:/app/.venv
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/devdb
+      - REDIS_URL=redis://cache:6379
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    # Override command for development
+    command: >
+      sh -c "pip install -e . &&
+             uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  # Database with exposed port for local tools
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: devdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis cache with exposed port
+  cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  # Database admin (debug profile)
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    profiles:
+      - debug
+
+  # Redis commander (debug profile)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    ports:
+      - "8082:8081"
+    environment:
+      - REDIS_HOSTS=local:cache:6379
+    depends_on:
+      - cache
+    profiles:
+      - debug
+
+  # MailHog for email testing (debug profile)
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    profiles:
+      - debug
+
+volumes:
+  postgres_data:
+  app_packages:

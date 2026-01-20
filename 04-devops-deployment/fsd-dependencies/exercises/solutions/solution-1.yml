@@ -1,0 +1,56 @@
+# Solution 1: DynamoDB Tables for Inventory Service
+# Complete configuration with tables, indexes, and appropriate access modes
+
+name: inventory-service
+platform: ecs
+description: Inventory management service
+
+team: warehouse-team
+tags:
+  environment: production
+  tier: backend
+
+compute:
+  cpu: 512
+  memory: 1024
+  desired_count: 3
+
+networking:
+  port: 8080
+  health_check:
+    path: /health
+    interval: 30
+
+dependencies:
+  # Main inventory table - full CRUD access
+  - type: aws_dynamodb_table
+    name: inventory
+    mode: read_write
+    indexes:
+      # Query by warehouse location
+      - name: warehouse-index
+        mode: read
+      # Query items below stock threshold
+      - name: low-stock-index
+        mode: read
+
+  # Audit log - append only, no reads
+  - type: aws_dynamodb_table
+    name: inventory-audit-log
+    mode: write
+
+  # Product catalog - read-only reference data
+  - type: aws_dynamodb_table
+    name: product-catalog
+    mode: read
+    indexes:
+      - name: category-index
+        mode: read
+
+environment:
+  LOG_LEVEL: info
+  AWS_REGION: us-east-1
+  # Table name environment variables
+  INVENTORY_TABLE: inventory
+  AUDIT_LOG_TABLE: inventory-audit-log
+  PRODUCT_CATALOG_TABLE: product-catalog
