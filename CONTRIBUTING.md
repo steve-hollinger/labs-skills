@@ -45,7 +45,7 @@ skill-name/
 
 ### 3. SKILL.md Format
 
-```yaml
+````yaml
 ---
 name: building-something-cool
 description: Build something cool with X. Use when Y.
@@ -70,7 +70,7 @@ description: Build something cool with X. Use when Y.
 ## More Detail
 - docs/concepts.md - Core concepts
 - docs/patterns.md - Code patterns
-```
+````
 
 **Format rules:**
 - `name`: gerund form (verb-ing), lowercase with hyphens
