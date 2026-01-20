@@ -1,22 +1,53 @@
 # Labs Skills Repository
 
-A comprehensive collection of 58 self-contained **Agent Skills** for modern software development. Each skill follows [Anthropic's Agent Skills format](https://docs.anthropic.com/en/docs/claude-code/agent-skills) with a `SKILL.md` file that enables AI assistants to apply the skill effectively.
+A comprehensive collection of 58 self-contained **Agent Skills** for modern software development. Each skill follows [Anthropic's Agent Skills format](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) with a `SKILL.md` file that enables AI assistants to apply the skill effectively.
 
 Each skill is independent with working examples, tests, and reference documentation.
 
-## Quick Start
+## Using with Claude Code
+
+### Option 1: Install via Plugin Marketplace
 
 ```bash
-# Clone the repository
+# Register this repository as a plugin marketplace
+/plugin marketplace add <org>/<repo>
+
+# Browse and install skills
+/plugin install labs-skills@<org>
+```
+
+### Option 2: Copy Skills Manually
+
+Copy individual skills to your Claude Code skills directory:
+
+```bash
+# Global installation (available in all projects)
+cp -r 01-language-frameworks/python/fastapi-basics ~/.claude/skills/
+
+# Project-specific installation
+cp -r 01-language-frameworks/python/fastapi-basics .claude/skills/
+```
+
+### Option 3: Clone as Project Skills
+
+Clone the entire repository and Claude Code will discover skills automatically:
+
+```bash
 git clone <repository-url>
 cd labs-skills
-
-# Navigate to a skill
-cd 01-language-frameworks/python/fastapi-basics
-
-# View the skill definition
-cat SKILL.md
+claude  # Skills are discovered from nested directories
 ```
+
+### Using Installed Skills
+
+Once installed, Claude automatically uses skills when relevant. You can also reference them explicitly:
+
+```
+"Use the fastapi-basics skill to create a REST API"
+"Apply the pydantic-v2-models skill for data validation"
+```
+
+Skills are triggered by their `description` field's "Use when..." phrase.
 
 ## Repository Structure
 
@@ -50,7 +81,7 @@ labs-skills/
 
 ## Skill Structure
 
-Every skill follows [Anthropic's Agent Skills format](https://docs.anthropic.com/en/docs/claude-code/agent-skills):
+Every skill follows [Anthropic's Agent Skills format](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview):
 
 ```
 skill-name/
