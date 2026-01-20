@@ -16,7 +16,7 @@ TARGET_DIR="$REPO_ROOT/$CATEGORY/$NAME"
 
 if [ -z "$TYPE" ] || [ -z "$NAME" ] || [ -z "$CATEGORY" ]; then
     echo "Usage: $0 <type> <name> <category>"
-    echo "  type: python, go, or frontend"
+    echo "  type: python, go, frontend, or ios"
     echo "  name: skill name (kebab-case)"
     echo "  category: path like 01-language-frameworks/python"
     exit 1
@@ -24,7 +24,7 @@ fi
 
 if [ ! -d "$TEMPLATE_DIR" ]; then
     echo "Error: Template not found for type '$TYPE'"
-    echo "Available types: python, go, frontend"
+    echo "Available types: python, go, frontend, ios"
     exit 1
 fi
 
@@ -56,6 +56,16 @@ find "$TARGET_DIR" -type f -exec sed -i "s/{{PASCAL_NAME}}/$PASCAL_NAME/g" {} \;
 # Rename directories if needed
 if [ "$TYPE" = "python" ] && [ -d "$TARGET_DIR/src/skill_name" ]; then
     mv "$TARGET_DIR/src/skill_name" "$TARGET_DIR/src/$SNAKE_NAME"
+fi
+
+# Rename iOS directories if needed
+if [ "$TYPE" = "ios" ]; then
+    if [ -d "$TARGET_DIR/Sources/SkillName" ]; then
+        mv "$TARGET_DIR/Sources/SkillName" "$TARGET_DIR/Sources/$PASCAL_NAME"
+    fi
+    if [ -d "$TARGET_DIR/Tests/SkillNameTests" ]; then
+        mv "$TARGET_DIR/Tests/SkillNameTests" "$TARGET_DIR/Tests/${PASCAL_NAME}Tests"
+    fi
 fi
 
 echo "Created skill: $TARGET_DIR"
