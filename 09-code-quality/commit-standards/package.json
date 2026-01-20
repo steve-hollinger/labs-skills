@@ -1,0 +1,39 @@
+{
+  "name": "commit-standards-skill",
+  "version": "1.0.0",
+  "description": "Learn conventional commit message standards with commitlint and husky",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "commitlint": "commitlint --edit",
+    "lint:commit": "echo 'feat: test commit message' | commitlint",
+    "test": "node src/test-commitlint.js",
+    "test:valid": "node src/test-commitlint.js --valid",
+    "test:invalid": "node src/test-commitlint.js --invalid",
+    "validate": "node src/validate-commit.js",
+    "example:1": "node examples/01-basic-commits/demo.js",
+    "example:2": "node examples/02-scoped-commits/demo.js",
+    "example:3": "node examples/03-breaking-changes/demo.js",
+    "examples": "npm run example:1 && npm run example:2 && npm run example:3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@commitlint/lint": "^19.0.0",
+    "@commitlint/load": "^19.0.0",
+    "husky": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "conventional-commits",
+    "commitlint",
+    "husky",
+    "git-hooks",
+    "commit-messages",
+    "semantic-versioning"
+  ],
+  "author": "",
+  "license": "MIT"
+}
