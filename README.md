@@ -2,7 +2,7 @@
 
 A comprehensive collection of 58 self-contained **Agent Skills** for modern software development. Each skill follows [Anthropic's Agent Skills format](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) with a `SKILL.md` file that enables AI assistants to apply the skill effectively.
 
-Each skill is independent with working examples, tests, and reference documentation.
+Each skill is independent with reference documentation that Claude loads on-demand.
 
 ## Using with Claude Code
 
@@ -106,13 +106,21 @@ description: Build REST APIs with FastAPI. Use when creating Python web services
 (concise example code)
 
 ## Key Points
-(2-3 bullet points)
+- Point 1
+- Point 2
 
 ## Common Mistakes
-(pitfalls to avoid)
+1. **Mistake name** - Brief explanation
+
+## More Detail
+- [docs/concepts.md](docs/concepts.md)
+- [docs/patterns.md](docs/patterns.md)
 ```
 
-The `name` uses gerund form (verb-ing) and `description` includes a "Use when..." trigger phrase.
+**Format rules:**
+- `name`: gerund form (verb-ing), lowercase with hyphens
+- `description`: includes "Use when..." trigger phrase
+- `More Detail`: links to docs/ files that Claude loads when needed
 
 ## Contributing
 
