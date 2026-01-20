@@ -1,0 +1,156 @@
+# Labs Skills Repository
+
+A comprehensive collection of 58 self-contained, learnable skills for modern software development. Each skill is designed to be mastered independently with working examples, tests, and documentation.
+
+## Quick Start
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd labs-skills
+
+# Start shared infrastructure (Neo4j, Kafka, DynamoDB-local, Valkey)
+make infra-up
+
+# Navigate to a skill
+cd 01-language-frameworks/python/fastapi-basics
+
+# Install dependencies and run examples
+make setup
+make examples
+make test
+```
+
+## Repository Structure
+
+```
+labs-skills/
+├── shared/                          # Shared infrastructure & templates
+│   ├── docker/                      # Base docker-compose for services
+│   ├── templates/                   # Skill scaffolding templates
+│   └── scripts/                     # Automation scripts
+├── 01-language-frameworks/          # Programming languages & frameworks
+│   ├── python/                      # Python ecosystem
+│   ├── go/                          # Go ecosystem
+│   └── frontend/                    # Frontend technologies
+├── 02-architecture-design/          # Design patterns & architecture
+├── 03-testing/                      # Testing frameworks & strategies
+│   ├── python/                      # Python testing
+│   └── go/                          # Go testing
+├── 04-devops-deployment/            # DevOps & deployment tools
+├── 05-data-databases/               # Data storage & streaming
+├── 06-ai-ml/                        # AI/ML & LLM integration
+├── 07-security/                     # Security practices
+├── 08-documentation/                # Documentation standards
+└── 09-code-quality/                 # Code quality tools
+    ├── python/                      # Python linting/typing
+    ├── go/                          # Go linting
+    └── commit-standards/            # Commit conventions
+```
+
+## Categories Overview
+
+| Category | Skills | Description |
+|----------|--------|-------------|
+| [01-language-frameworks](./01-language-frameworks/) | 14 | Core language skills (Python, Go, Frontend) |
+| [02-architecture-design](./02-architecture-design/) | 7 | Design patterns and architectural decisions |
+| [03-testing](./03-testing/) | 7 | Testing frameworks and strategies |
+| [04-devops-deployment](./04-devops-deployment/) | 6 | Infrastructure and deployment |
+| [05-data-databases](./05-data-databases/) | 7 | Data storage, streaming, and caching |
+| [06-ai-ml](./06-ai-ml/) | 5 | AI/ML integration and tooling |
+| [07-security](./07-security/) | 5 | Security best practices |
+| [08-documentation](./08-documentation/) | 3 | Documentation standards |
+| [09-code-quality](./09-code-quality/) | 4 | Linting, typing, and standards |
+
+## How Each Skill Works
+
+Every skill follows a consistent structure:
+
+```
+skill-name/
+├── README.md           # Overview, objectives, quick start
+├── CLAUDE.md           # AI assistant guidance
+├── pyproject.toml      # Dependencies (Python) or go.mod (Go)
+├── Makefile            # Standard commands
+├── docs/               # Detailed documentation
+│   ├── concepts.md     # Core concepts explained
+│   └── patterns.md     # Common patterns
+├── src/                # Source code with examples
+├── exercises/          # Practice exercises with solutions
+└── tests/              # Test suite
+```
+
+### Standard Commands
+
+Each skill supports these Makefile targets:
+
+```bash
+make setup      # Install dependencies
+make examples   # Run example code
+make test       # Run tests
+make lint       # Check code quality
+make clean      # Clean build artifacts
+```
+
+## Learning Paths
+
+### Path 1: Python Developer
+1. UV Package Manager → Ruff Linting → MyPy Type Checking
+2. Pydantic v2 → Dynaconf Config → FastAPI
+3. pytest Markers → pytest-asyncio → AWS Mocking (moto)
+4. Bandit Security → Secrets Manager
+
+### Path 2: Go Developer
+1. golangci-lint → Logging Constants
+2. Go HTTP Services → Go Concurrency
+3. Go Test + Race → Testify Framework → Testcontainers
+4. Kafka (franz-go) → Neo4j Driver
+
+### Path 3: Full Stack
+1. Python basics → Go basics → Frontend (Vite + React + Tailwind)
+2. Docker Compose → GitHub Actions → FSD YAML
+3. DynamoDB Schema → Kafka Event Streaming → Valkey/Redis
+
+### Path 4: AI/ML Engineer
+1. FastAPI → LangChain/LangGraph
+2. MCP Tool Schemas → MCP Server (Go)
+3. OpenAI Responses API → SSE Streaming
+4. Hybrid Search → Opik Evaluation
+
+## Prerequisites
+
+- Docker and Docker Compose
+- Python 3.11+ with UV package manager
+- Go 1.22+
+- Node.js 20+ (for frontend skills)
+
+## Shared Infrastructure
+
+Start all shared services with:
+
+```bash
+make infra-up
+```
+
+This starts:
+- **Neo4j** - Graph database (bolt://localhost:7687)
+- **Kafka** - Event streaming (localhost:9092)
+- **DynamoDB Local** - AWS DynamoDB emulator (localhost:8000)
+- **Valkey** - Redis-compatible cache (localhost:6379)
+
+Stop services:
+```bash
+make infra-down
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding new skills.
+
+## Skill Index
+
+See [SKILL_INDEX.md](./SKILL_INDEX.md) for a complete alphabetical index of all skills.
+
+## License
+
+MIT License - See [LICENSE](./LICENSE) for details.

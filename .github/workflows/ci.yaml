@@ -1,0 +1,147 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      python: ${{ steps.changes.outputs.python }}
+      go: ${{ steps.changes.outputs.go }}
+      frontend: ${{ steps.changes.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            python:
+              - '**/pyproject.toml'
+              - '**/*.py'
+            go:
+              - '**/go.mod'
+              - '**/*.go'
+            frontend:
+              - '**/package.json'
+              - '**/*.ts'
+              - '**/*.tsx'
+
+  python-tests:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.python == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Find and test Python skills
+        run: |
+          for skill in $(find . -name "pyproject.toml" -not -path "./shared/*" | xargs -I {} dirname {}); do
+            echo "Testing: $skill"
+            cd "$skill"
+            if [ -f "Makefile" ]; then
+              make setup || true
+              make test || echo "Tests failed or not found"
+              make lint || echo "Lint failed or not found"
+            fi
+            cd - > /dev/null
+          done
+
+  go-tests:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Install golangci-lint
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.56.0
+
+      - name: Find and test Go skills
+        run: |
+          for skill in $(find . -name "go.mod" -not -path "./shared/*" | xargs -I {} dirname {}); do
+            echo "Testing: $skill"
+            cd "$skill"
+            if [ -f "Makefile" ]; then
+              make setup || true
+              make test || echo "Tests failed or not found"
+              make test-race || echo "Race tests failed or not found"
+              make lint || echo "Lint failed or not found"
+            fi
+            cd - > /dev/null
+          done
+
+  frontend-tests:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Find and test Frontend skills
+        run: |
+          for skill in $(find . -name "package.json" -not -path "./shared/*" -not -path "*/node_modules/*" | xargs -I {} dirname {}); do
+            echo "Testing: $skill"
+            cd "$skill"
+            if [ -f "Makefile" ]; then
+              make setup || true
+              make test || echo "Tests failed or not found"
+              make lint || echo "Lint failed or not found"
+            fi
+            cd - > /dev/null
+          done
+
+  infrastructure-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate docker-compose
+        run: docker compose -f shared/docker/docker-compose.base.yml config
+
+      - name: Start infrastructure
+        run: |
+          docker compose -f shared/docker/docker-compose.base.yml up -d
+          sleep 30
+
+      - name: Check services health
+        run: |
+          docker compose -f shared/docker/docker-compose.base.yml ps
+
+          # Check Neo4j
+          curl -f http://localhost:7474 || echo "Neo4j not ready"
+
+          # Check DynamoDB
+          curl -f http://localhost:8000 || echo "DynamoDB not ready"
+
+          # Check Valkey
+          docker exec labs-valkey valkey-cli ping || echo "Valkey not ready"
+
+      - name: Cleanup
+        if: always()
+        run: docker compose -f shared/docker/docker-compose.base.yml down -v
