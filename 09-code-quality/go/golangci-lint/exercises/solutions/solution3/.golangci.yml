@@ -1,0 +1,134 @@
+# Solution 3: Production CI Configuration
+#
+# This configuration is optimized for CI pipelines with
+# comprehensive linting and appropriate exclusions.
+
+run:
+  # Longer timeout for CI environments (often slower than local)
+  timeout: 10m
+
+  # Include test files
+  tests: true
+
+  # Skip directories that shouldn't be linted
+  skip-dirs:
+    - vendor
+    - generated
+    - third_party
+
+  # Skip specific files
+  skip-files:
+    - ".*\\.pb\\.go$"      # Protocol buffer generated files
+    - ".*_gen\\.go$"       # Other generated files
+
+linters:
+  # Explicit control over which linters run
+  disable-all: true
+
+  enable:
+    # === Bug Detection (Critical) ===
+    - errcheck      # Unchecked errors
+    - govet         # Suspicious constructs
+    - staticcheck   # Advanced analysis
+    - unused        # Unused code
+    - typecheck     # Type checking
+
+    # === Code Quality ===
+    - ineffassign   # Ineffectual assignments
+    - gosimple      # Simplification opportunities
+
+    # === Style & Formatting ===
+    - gofmt         # Go formatting
+    - goimports     # Import organization
+
+    # === Best Practices ===
+    - gocritic      # Opinionated checks
+    - revive        # golint replacement
+
+    # === Security (Production Critical) ===
+    - gosec         # Security vulnerabilities
+
+linters-settings:
+  errcheck:
+    # Check type assertions
+    check-type-assertions: true
+    # Check blank identifiers
+    check-blank: true
+
+  govet:
+    # Check for shadow variables
+    shadow: true
+
+  goimports:
+    # Organize imports with local prefix last
+    local-prefixes: github.com/myorg
+
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+
+  gosec:
+    # Configure security checks
+    includes:
+      - G101  # Hardcoded credentials
+      - G102  # Bind to all interfaces
+      - G104  # Unhandled errors
+      - G107  # URL in variable
+      - G201  # SQL string formatting
+      - G202  # SQL concatenation
+      - G301  # Poor file permissions
+      - G304  # File path from tainted input
+      - G401  # Weak crypto
+      - G402  # TLS skip verify
+      - G501  # Blacklisted imports
+
+issues:
+  # Don't limit issues
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+  # Exclusion rules for specific paths
+  exclude-rules:
+    # Test files can have relaxed rules
+    - path: _test\.go
+      linters:
+        - errcheck      # Tests often ignore errors
+        - gocritic      # Less strict in tests
+        - gosec         # Security less critical in tests
+
+    # Generated files should not be linted
+    - path: \.pb\.go$
+      linters:
+        - all
+
+    # Example files can have unused code
+    - path: examples/
+      linters:
+        - unused
+        - deadcode
+
+    # Main files often have long functions
+    - path: main\.go$
+      linters:
+        - funlen
+
+output:
+  # Format for CI systems
+  formats:
+    - format: colored-line-number
+
+  # Show code context
+  print-issued-lines: true
+  print-linter-name: true
+
+severity:
+  default-severity: warning
+  rules:
+    # Critical issues should be errors
+    - linters:
+        - errcheck
+        - govet
+        - gosec
+      severity: error

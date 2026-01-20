@@ -1,0 +1,92 @@
+# Solution 3: GitHub Actions Workflow for golangci-lint
+#
+# This workflow runs golangci-lint on every push and pull request.
+
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  golangci-lint:
+    name: golangci-lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history for better new-issues detection
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          # Enable Go module caching
+          cache: true
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          # Version of golangci-lint to use
+          version: v1.55.0
+
+          # Arguments to pass to golangci-lint
+          args: >-
+            --timeout=10m
+            --out-format=github-actions
+
+          # For PRs, only show new issues (great for legacy codebases)
+          only-new-issues: ${{ github.event_name == 'pull_request' }}
+
+          # Working directory (if not root)
+          # working-directory: ./src
+
+      - name: Upload lint results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: golangci-lint-results
+          path: |
+            golangci-lint-report.json
+          retention-days: 5
+
+  # Additional job for security-focused linting
+  security-lint:
+    name: Security Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Run gosec
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: v1.55.0
+          args: >-
+            --timeout=5m
+            --disable-all
+            --enable=gosec
+            --out-format=github-actions
