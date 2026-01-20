@@ -4,46 +4,38 @@
 
 This document covers patterns for writing effective Agent Skills, based on Anthropic's official best practices.
 
-## Pattern 1: Labs-Skills SKILL.md Format
+## Pattern 1: Minimal SKILL.md Format
 
 ### When to Use
 
-When creating skills for the labs-skills repository with its learning-focused structure.
+When creating skills for the labs-skills repository.
 
 ### Implementation
 
 ```yaml
 ---
 name: gerund-skill-name
-description: This skill teaches [topic]. Use when [trigger conditions].
+description: [What it does]. Use when [trigger conditions].
 ---
 
 # Skill Title
 
 ## Quick Start
 ```[language]
-// Concise example (5-10 lines max)
-```
-
-## Commands
-```bash
-make setup      # Install dependencies
-make examples   # Run all examples
-make example-1  # Specific example
-make test       # Run tests
+// Concise example (5-15 lines)
 ```
 
 ## Key Points
-- Short phrase 1 (2-3 words)
-- Short phrase 2
-- Short phrase 3
+- Most important concept
+- Second most important
+- Third most important
 
 ## Common Mistakes
 1. **Mistake name** - How to fix it
 
 ## More Detail
 - [docs/concepts.md](docs/concepts.md) - Core concepts
-- [docs/patterns.md](docs/patterns.md) - Implementation patterns
+- [docs/patterns.md](docs/patterns.md) - Code patterns
 ```
 
 ### Example
@@ -51,7 +43,7 @@ make test       # Run tests
 ```yaml
 ---
 name: validating-jwt-tokens
-description: This skill teaches JWT token validation using PyJWT. Use when implementing authentication or verifying tokens.
+description: Validate JWT tokens with PyJWT. Use when implementing authentication or verifying tokens.
 ---
 
 # JWT Validation
@@ -67,32 +59,25 @@ payload = jwt.decode(
 )
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make test       # Run pytest
-```
-
 ## Key Points
-- JWT Structure
-- Claims Validation
-- Signature Algorithms
+- Always specify algorithms
+- Validate required claims
+- Handle expiration
 
 ## Common Mistakes
-1. **Not specifying algorithms** - Always set `algorithms=["RS256"]`
+1. **Not specifying algorithms** - Always set `algorithms=["HS256"]`
 2. **Accepting expired tokens** - Include `exp` in required claims
 
 ## More Detail
 - [docs/concepts.md](docs/concepts.md) - Core concepts
-- [docs/patterns.md](docs/patterns.md) - Implementation patterns
+- [docs/patterns.md](docs/patterns.md) - Code patterns
 ```
 
 ### Pitfalls to Avoid
 
-- Key Points should be 2-3 word phrases, not sentences
-- Quick Start should be ~10 lines, not 50
-- Description must start with "This skill teaches..."
+- Key Points should be concise phrases, not paragraphs
+- Quick Start should be ~10-15 lines, not 50
+- Description should be direct, not "This skill teaches..."
 
 ## Pattern 2: Progressive Disclosure
 

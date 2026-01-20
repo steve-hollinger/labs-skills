@@ -2,6 +2,20 @@
 
 Thank you for your interest in contributing! This guide explains how to add new skills or improve existing ones.
 
+## Quick Start: Use the Skill-Writing Skill
+
+The easiest way to create a new skill is to use our **skill-writing skill**:
+
+```
+08-documentation/skill-writing/
+├── SKILL.md           # Guidelines and quick reference
+└── docs/
+    ├── concepts.md    # Anthropic's official guidelines
+    └── patterns.md    # Templates and examples
+```
+
+This skill contains Anthropic's official best practices for writing Agent Skills.
+
 ## Adding a New Skill
 
 ### 1. Choose the Right Category

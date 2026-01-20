@@ -1,6 +1,6 @@
 ---
 name: writing-agent-skills
-description: This skill teaches creating effective Agent Skills with SKILL.md files following Anthropic's official format. Use when creating new skills, writing SKILL.md files, or improving existing skill documentation.
+description: Create effective Agent Skills with SKILL.md files following Anthropic's format. Use when creating new skills or improving skill documentation.
 ---
 
 # Skill Writing
