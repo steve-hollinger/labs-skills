@@ -43,8 +43,6 @@ skill-name/
     └── patterns.md     # Required - Code patterns
 ```
 
-That's it. No Makefile, no src/, no tests/, no exercises/.
-
 ### 3. SKILL.md Format
 
 ```yaml
