@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Optional: Add pre-commit checks here
-# Example: Run linting before commit
-# npm run lint
-
-echo "Pre-commit hook running..."
-echo "Tip: Add your own checks here (linting, testing, etc.)"
