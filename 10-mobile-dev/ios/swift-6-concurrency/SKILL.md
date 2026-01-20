@@ -1,6 +1,6 @@
 ---
 name: migrating-to-swift-6
-description: This skill teaches Swift 6 concurrency migration including Sendable types, actors, and async/await patterns. Use when adopting strict concurrency or fixing Sendable warnings.
+description: Migrate Swift code to Swift 6 concurrency with Sendable types, actors, and async/await. Use when adopting strict concurrency or fixing Sendable warnings.
 ---
 
 # Swift 6 Concurrency
@@ -21,16 +21,6 @@ actor DataStore {
     private var cache: [String: Data] = [:]
     func store(_ data: Data, for key: String) { cache[key] = data }
 }
-```
-
-## Commands
-```bash
-make setup      # swift package resolve
-make examples   # Run all examples
-make example-1  # Basic async/await
-make example-2  # Actors and isolation
-make example-3  # Sendable patterns
-make test       # swift test
 ```
 
 ## Key Points

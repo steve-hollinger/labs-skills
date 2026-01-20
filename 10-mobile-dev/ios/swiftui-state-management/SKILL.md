@@ -1,6 +1,6 @@
 ---
 name: managing-swiftui-state
-description: This skill teaches SwiftUI state management patterns including @State, @FocusState, @Observable, and atomic state design. Use when managing view state, keyboard focus, or refactoring state architecture.
+description: Manage SwiftUI state with @State, @FocusState, @Observable, and atomic state patterns. Use when managing view state, keyboard focus, or refactoring state architecture.
 ---
 
 # SwiftUI State Management
@@ -26,16 +26,6 @@ final class ConversationState {
     var responseId: String?
     var isLoading = false
 }
-```
-
-## Commands
-```bash
-make setup      # swift package resolve
-make examples   # Run all examples
-make example-1  # @State and @Binding
-make example-2  # @FocusState patterns
-make example-3  # @Observable atomic state
-make test       # swift test
 ```
 
 ## Key Points

@@ -1,6 +1,6 @@
 ---
 name: animating-swiftui-views
-description: This skill teaches SwiftUI animation patterns including typewriter effects, rotating placeholders, and custom transitions. Use when adding text animations or view transitions.
+description: Animate SwiftUI views with typewriter effects, rotating placeholders, and custom transitions. Use when adding text animations or view transitions.
 ---
 
 # SwiftUI Animations
@@ -25,16 +25,6 @@ struct TypewriterText: View {
         }
     }
 }
-```
-
-## Commands
-```bash
-make setup      # swift package resolve
-make examples   # Run all examples
-make example-1  # Typewriter animation
-make example-2  # Rotating placeholders
-make example-3  # Custom transitions
-make test       # swift test
 ```
 
 ## Key Points

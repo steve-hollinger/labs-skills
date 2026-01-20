@@ -1,6 +1,6 @@
 ---
 name: structuring-swiftui-apps
-description: This skill teaches SwiftUI app architecture including central action handlers, MVVM patterns, and view composition. Use when organizing view hierarchies or implementing action handling.
+description: Structure SwiftUI apps with central action handlers, MVVM patterns, and view composition. Use when organizing view hierarchies or implementing action handling.
 ---
 
 # SwiftUI Architecture
@@ -29,16 +29,6 @@ final class AssistantActionHandler {
         }
     }
 }
-```
-
-## Commands
-```bash
-make setup      # swift package resolve
-make examples   # Run all examples
-make example-1  # Action handler pattern
-make example-2  # View composition
-make example-3  # Parent-child communication
-make test       # swift test
 ```
 
 ## Key Points

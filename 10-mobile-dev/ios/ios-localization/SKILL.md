@@ -1,6 +1,6 @@
 ---
 name: localizing-ios-apps
-description: This skill teaches iOS localization including String Catalogs, LocalizedStringKey, and removing hardcoded strings. Use when localizing apps or auditing hardcoded text.
+description: Localize iOS apps with String Catalogs, LocalizedStringKey, and hardcoded string removal. Use when localizing apps or auditing hardcoded text.
 ---
 
 # iOS Localization
@@ -22,16 +22,6 @@ struct AssistantView: View {
 // Programmatic localization
 let title = String(localized: "assistant.title")
 let formatted = String(localized: "points.earned.\(count)")
-```
-
-## Commands
-```bash
-make setup      # swift package resolve
-make examples   # Run all examples
-make example-1  # String Catalogs
-make example-2  # LocalizedStringKey
-make example-3  # Pluralization
-make test       # swift test
 ```
 
 ## Key Points

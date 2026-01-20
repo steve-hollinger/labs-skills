@@ -1,6 +1,6 @@
 ---
 name: implementing-ios-analytics
-description: This skill teaches iOS analytics implementation including V2 impression tracking, event analytics, and shelf field patterns. Use when adding analytics or tracking impressions.
+description: Implement iOS analytics with V2 impression tracking, event analytics, and shelf field patterns. Use when adding analytics or tracking impressions.
 ---
 
 # iOS Analytics
@@ -24,16 +24,6 @@ struct OfferCardView: View {
             }
     }
 }
-```
-
-## Commands
-```bash
-make setup      # swift package resolve
-make examples   # Run all examples
-make example-1  # V2 impression tracking
-make example-2  # Action bar analytics
-make example-3  # Shelf field patterns
-make test       # swift test
 ```
 
 ## Key Points

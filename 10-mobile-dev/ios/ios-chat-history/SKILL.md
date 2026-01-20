@@ -1,6 +1,6 @@
 ---
 name: building-chat-history
-description: This skill teaches chat history implementation including session management, conversation persistence, and resume functionality. Use when implementing conversation history or chat restoration.
+description: Build chat history with session management, conversation persistence, and resume functionality. Use when implementing conversation history or chat restoration.
 ---
 
 # iOS Chat History
@@ -24,16 +24,6 @@ final class ConversationState {
         messages = history.messages.map { $0.toDomain() }
     }
 }
-```
-
-## Commands
-```bash
-make setup      # swift package resolve
-make examples   # Run all examples
-make example-1  # Session management
-make example-2  # History network layer
-make example-3  # Resume functionality
-make test       # swift test
 ```
 
 ## Key Points

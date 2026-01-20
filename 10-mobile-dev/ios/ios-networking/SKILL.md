@@ -1,6 +1,6 @@
 ---
 name: networking-with-async-await
-description: This skill teaches modern iOS networking with async/await URLSession, response handling, and DTO mapping. Use when implementing API clients or handling network responses.
+description: Implement iOS networking with async/await URLSession, response handling, and DTO mapping. Use when implementing API clients or handling network responses.
 ---
 
 # iOS Networking
@@ -22,16 +22,6 @@ final class ChatHistoryClient {
         return dto.items.map { $0.toDomain() }
     }
 }
-```
-
-## Commands
-```bash
-make setup      # swift package resolve
-make examples   # Run all examples
-make example-1  # Async URLSession
-make example-2  # Response handling
-make example-3  # DTO mapping
-make test       # swift test
 ```
 
 ## Key Points
