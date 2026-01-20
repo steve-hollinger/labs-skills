@@ -1,0 +1,46 @@
+[project]
+name = "oauth-21-oidc"
+version = "0.1.0"
+description = "OAuth 2.1 and OpenID Connect authentication patterns"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "authlib>=1.3.0",
+    "httpx>=0.27.0",
+    "pyjwt[crypto]>=2.8.0",
+    "starlette>=0.36.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "respx>=0.21.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "respx>=0.21.0",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
