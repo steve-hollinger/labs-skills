@@ -1,8 +1,8 @@
 # Labs Skills Repository
 
-A comprehensive collection of 58 self-contained **Agent Skills** for modern software development. Each skill follows [Anthropic's Agent Skills format](https://docs.anthropic.com/en/docs/claude-code/agent-skills) with a `SKILL.md` file that enables AI assistants to help users learn and apply the skill effectively.
+A comprehensive collection of 58 self-contained **Agent Skills** for modern software development. Each skill follows [Anthropic's Agent Skills format](https://docs.anthropic.com/en/docs/claude-code/agent-skills) with a `SKILL.md` file that enables AI assistants to apply the skill effectively.
 
-Skills are designed to be mastered independently with working examples, tests, and documentation.
+Each skill is independent with working examples, tests, and reference documentation.
 
 ## Quick Start
 
@@ -71,14 +71,13 @@ Every skill follows a consistent structure using [Anthropic's Agent Skills forma
 ```
 skill-name/
 ├── SKILL.md            # Agent skill definition (YAML frontmatter + guidance)
-├── README.md           # Overview, objectives, quick start
+├── README.md           # Overview and quick start
 ├── pyproject.toml      # Dependencies (Python) or go.mod (Go)
 ├── Makefile            # Standard commands
-├── docs/               # Detailed documentation
-│   ├── concepts.md     # Core concepts explained
+├── docs/               # Reference documentation
+│   ├── concepts.md     # Core concepts
 │   └── patterns.md     # Common patterns
-├── src/                # Source code with examples
-├── exercises/          # Practice exercises with solutions
+├── src/                # Working examples
 └── tests/              # Test suite
 ```
 
@@ -117,31 +116,6 @@ make test       # Run tests
 make lint       # Check code quality
 make clean      # Clean build artifacts
 ```
-
-## Learning Paths
-
-### Path 1: Python Developer
-1. UV Package Manager → Ruff Linting → MyPy Type Checking
-2. Pydantic v2 → Dynaconf Config → FastAPI
-3. pytest Markers → pytest-asyncio → AWS Mocking (moto)
-4. Bandit Security → Secrets Manager
-
-### Path 2: Go Developer
-1. golangci-lint → Logging Constants
-2. Go HTTP Services → Go Concurrency
-3. Go Test + Race → Testify Framework → Testcontainers
-4. Kafka (franz-go) → Neo4j Driver
-
-### Path 3: Full Stack
-1. Python basics → Go basics → Frontend (Vite + React + Tailwind)
-2. Docker Compose → GitHub Actions → FSD YAML
-3. DynamoDB Schema → Kafka Event Streaming → Valkey/Redis
-
-### Path 4: AI/ML Engineer
-1. FastAPI → LangChain/LangGraph
-2. MCP Tool Schemas → MCP Server (Go)
-3. OpenAI Responses API → SSE Streaming
-4. Hybrid Search → Opik Evaluation
 
 ## Prerequisites
 
