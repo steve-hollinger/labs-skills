@@ -1,6 +1,8 @@
 # Labs Skills Repository
 
-A comprehensive collection of 58 self-contained, learnable skills for modern software development. Each skill is designed to be mastered independently with working examples, tests, and documentation.
+A comprehensive collection of 58 self-contained **Agent Skills** for modern software development. Each skill follows [Anthropic's Agent Skills format](https://docs.anthropic.com/en/docs/claude-code/agent-skills) with a `SKILL.md` file that enables AI assistants to help users learn and apply the skill effectively.
+
+Skills are designed to be mastered independently with working examples, tests, and documentation.
 
 ## Quick Start
 
@@ -64,12 +66,12 @@ labs-skills/
 
 ## How Each Skill Works
 
-Every skill follows a consistent structure:
+Every skill follows a consistent structure using [Anthropic's Agent Skills format](https://docs.anthropic.com/en/docs/claude-code/agent-skills):
 
 ```
 skill-name/
+├── SKILL.md            # Agent skill definition (YAML frontmatter + guidance)
 ├── README.md           # Overview, objectives, quick start
-├── CLAUDE.md           # AI assistant guidance
 ├── pyproject.toml      # Dependencies (Python) or go.mod (Go)
 ├── Makefile            # Standard commands
 ├── docs/               # Detailed documentation
@@ -79,6 +81,30 @@ skill-name/
 ├── exercises/          # Practice exercises with solutions
 └── tests/              # Test suite
 ```
+
+### SKILL.md Format
+
+Each skill includes a `SKILL.md` file with YAML frontmatter:
+
+```yaml
+---
+name: building-fastapi-services
+description: Build REST APIs with FastAPI. Use when creating Python web services.
+---
+
+# FastAPI Basics
+
+## Quick Start
+(concise example code)
+
+## Commands
+(make targets)
+
+## Key Points
+(2-3 bullet points)
+```
+
+The `name` uses gerund form (verb-ing) and `description` includes a "Use when..." trigger phrase.
 
 ### Standard Commands
 
