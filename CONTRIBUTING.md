@@ -129,6 +129,13 @@ def example():
 ...
 ````
 
+### 6. Update the Skill Index
+
+After creating your skill, add it to the **Skill Index** in `README.md`:
+
+1. Find the appropriate category section (e.g., `01 - Language Frameworks`)
+2. Add a row to the table with: Skill path, Name, Description
+
 ## Improving Existing Skills
 
 ### Fixing Issues
@@ -151,7 +158,7 @@ Before submitting:
 - [ ] Quick Start has working code example
 - [ ] docs/concepts.md exists and is complete
 - [ ] docs/patterns.md exists and is complete
-- [ ] No extra files (no Makefile, src/, tests/, etc.)
+- [ ] **Skill Index in README.md is updated** (for new skills)
 
 ## Questions?
 
