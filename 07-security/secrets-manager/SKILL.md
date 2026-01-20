@@ -1,6 +1,6 @@
 ---
 name: managing-aws-secrets
-description: This skill teaches secure secrets management using AWS Secrets Manager with Python boto3, including local development with LocalStack. Use when building or deploying containerized applications.
+description: Secure secrets management using AWS Secrets Manager with Python boto3, including local development with LocalStack. Use when building or deploying containerized applications.
 ---
 
 # Secrets Manager
@@ -20,15 +20,6 @@ def get_secrets_client(use_localstack: bool = False):
     return boto3.client('secretsmanager')
 ```
 
-## Commands
-```bash
-make setup          # Install dependencies with UV
-make localstack-up  # Start LocalStack container
-make localstack-down # Stop LocalStack container
-make examples       # Run all examples
-make example-1      # Basic secret storage example
-make example-2      # JSON secrets with versioning
-```
 
 ## Key Points
 - Secret Storage

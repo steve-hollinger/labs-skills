@@ -1,6 +1,6 @@
 ---
 name: implementing-api-key-auth
-description: This skill teaches API key authentication patterns including key generation, storage, validation, and rate limiting for Python web applications. Use when implementing authentication or verifying tokens.
+description: API key authentication patterns including key generation, storage, validation, and rate limiting for Python web applications. Use when implementing authentication or verifying tokens.
 ---
 
 # Api Key Auth
@@ -15,15 +15,6 @@ def generate_api_key(prefix: str = "sk", length: int = 32) -> str:
     return f"{prefix}_{random_part}"
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Basic key generation
-make example-2  # FastAPI middleware
-make example-3  # Rate limiting
-make test       # Run pytest
-```
 
 ## Key Points
 - Key Generation

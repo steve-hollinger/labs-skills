@@ -1,19 +1,10 @@
 ---
 name: managing-python-packages
-description: This skill teaches UV, the fast Python package and project manager from Astral (creators of Ruff). Use when writing or improving tests.
+description: UV, the fast Python package and project manager from Astral (creators of Ruff). Use when writing or improving tests.
 ---
 
 # Uv Package Manager
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example (project setup)
-make example-2  # Run specific example (lock files)
-make example-3  # Run specific example (multi-env)
-make test       # Run pytest
-```
 
 ## Key Points
 - Project Initialization

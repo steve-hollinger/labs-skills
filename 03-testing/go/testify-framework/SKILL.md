@@ -1,6 +1,6 @@
 ---
 name: testing-with-testify
-description: This skill teaches effective Go testing using the Testify testing toolkit. Use when writing or improving tests.
+description: Effective Go testing using the Testify testing toolkit. Use when writing or improving tests.
 ---
 
 # Testify Framework
@@ -19,15 +19,6 @@ func TestWithProperPreconditions(t *testing.T) {
 }
 ```
 
-## Commands
-```bash
-make setup          # Download dependencies
-make examples       # Run all examples
-make example-1      # Run basic assertions example
-make example-2      # Run test suites example
-make example-3      # Run mocking example
-make test           # Run go test
-```
 
 ## Key Points
 - assert

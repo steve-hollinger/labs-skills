@@ -1,6 +1,6 @@
 ---
 name: crafting-system-prompts
-description: This skill teaches prompt engineering for system prompts, focusing on the four-component structure (role, context, instructions, constraints) and best practices for different use cases. Use when writing or improving tests.
+description: Prompt engineering for system prompts, focusing on the four-component structure (role, context, instructions, constraints) and best practices for different use cases. Use when writing or improving tests.
 ---
 
 # System Prompts
@@ -15,15 +15,6 @@ prompt = SystemPrompt(
 )
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Anatomy of a system prompt
-make example-2  # Use case variations
-make example-3  # Debugging prompts
-make test       # Run pytest
-```
 
 ## Key Points
 - Four Components

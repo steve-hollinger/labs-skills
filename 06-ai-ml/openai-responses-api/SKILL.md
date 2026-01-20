@@ -1,6 +1,6 @@
 ---
 name: using-openai-responses-api
-description: This skill teaches OpenAI API integration including chat completions, function calling, structured outputs, and production patterns. Use when writing or improving tests.
+description: OpenAI API integration including chat completions, function calling, structured outputs, and production patterns. Use when writing or improving tests.
 ---
 
 # Openai Responses Api
@@ -21,15 +21,6 @@ response = client.chat.completions.create(
 content = response.choices[0].message.content
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run chat completion example
-make example-2  # Run function calling example
-make example-3  # Run structured outputs example
-make example-4  # Run production patterns example
-```
 
 ## Key Points
 - Chat Completions

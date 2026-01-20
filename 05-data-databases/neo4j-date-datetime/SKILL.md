@@ -1,6 +1,6 @@
 ---
 name: handling-neo4j-dates
-description: This skill teaches temporal data handling in Neo4j. Understanding when to use DATE versus DATETIME (and other temporal types) is critical for data modeling and query performance. Use when writing or improving tests.
+description: Temporal data handling in Neo4j. Understanding when to use DATE versus DATETIME (and other temporal types) is critical for data modeling and query performance. Use when writing or improving tests.
 ---
 
 # Neo4J Date Datetime
@@ -19,15 +19,6 @@ description: This skill teaches temporal data handling in Neo4j. Understanding w
 #   Need timezone? -> TIME or LOCALTIME
 ```
 
-## Commands
-```bash
-make setup      # Install Python dependencies with UV
-make examples   # Run all examples
-make example-1  # Run DATE basics example
-make example-2  # Run DATETIME/timezone example
-make example-3  # Run duration/arithmetic example
-make test       # Run pytest
-```
 
 ## Key Points
 - DATE

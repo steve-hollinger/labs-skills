@@ -1,6 +1,6 @@
 ---
 name: masking-sensitive-tokens
-description: This skill teaches how to mask sensitive data in logs, outputs, and API responses to prevent accidental exposure. Use when implementing authentication or verifying tokens.
+description: How to mask sensitive data in logs, outputs, and API responses to prevent accidental exposure. Use when implementing authentication or verifying tokens.
 ---
 
 # Token Masking
@@ -16,15 +16,6 @@ def mask_secret(value: str, show_chars: int = 4) -> str:
     return f"{value[:show_chars]}***{value[-show_chars:]}"
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Basic token masking
-make example-2  # Logging integration
-make example-3  # Advanced pattern detection
-make test       # Run pytest
-```
 
 ## Key Points
 - Token Detection

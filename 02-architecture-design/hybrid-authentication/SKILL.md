@@ -1,6 +1,6 @@
 ---
 name: implementing-hybrid-auth
-description: This skill teaches implementing multi-strategy authentication systems that combine JWT tokens with API keys. Use when implementing authentication or verifying tokens.
+description: Implementing multi-strategy authentication systems that combine JWT tokens with API keys. Use when implementing authentication or verifying tokens.
 ---
 
 # Hybrid Authentication
@@ -22,15 +22,6 @@ const (
 )
 ```
 
-## Commands
-```bash
-make setup      # Download dependencies
-make examples   # Run all examples
-make example-1  # Run JWT authentication example
-make example-2  # Run API key authentication example
-make example-3  # Run hybrid auth system example
-make test       # Run go test
-```
 
 ## Key Points
 - JWT Authentication

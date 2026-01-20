@@ -1,6 +1,6 @@
 ---
 name: writing-claude-md-files
-description: This skill teaches developers how to write effective CLAUDE.md files that provide AI assistants with proper context and guidance for working in codebases. Use when writing or improving tests.
+description: Developers how to write effective CLAUDE.md files that provide AI assistants with proper context and guidance for working in codebases. Use when writing or improving tests.
 ---
 
 # Claude Md Standards
@@ -17,15 +17,6 @@ STANDARD_SECTIONS = [
 ]
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run basic structure example
-make example-2  # Run good vs bad guidance example
-make example-3  # Run project templates example
-make test       # Run pytest
-```
 
 ## Key Points
 - Context Setting

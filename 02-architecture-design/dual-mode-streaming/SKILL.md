@@ -1,6 +1,6 @@
 ---
 name: implementing-dual-mode-streaming
-description: This skill teaches patterns for building APIs that support both synchronous batch responses and asynchronous streaming responses, essential for modern LLM applications and real-time systems. Use when implementing authentication or verifying tokens.
+description: Patterns for building APIs that support both synchronous batch responses and asynchronous streaming responses, essential for modern LLM applications and real-time systems. Use when implementing authentication or verifying tokens.
 ---
 
 # Dual Mode Streaming
@@ -25,15 +25,6 @@ async def stream_events():
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run basic streaming example
-make example-2  # Run mode detection example
-make example-3  # Run LLM-style streaming example
-make example-4  # Run backpressure handling example
-```
 
 ## Key Points
 - Response Modes

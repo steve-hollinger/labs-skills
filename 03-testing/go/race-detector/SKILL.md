@@ -1,6 +1,6 @@
 ---
 name: detecting-go-race-conditions
-description: This skill teaches race condition detection and prevention in Go using the built-in race detector. Use when writing or improving tests.
+description: Race condition detection and prevention in Go using the built-in race detector. Use when writing or improving tests.
 ---
 
 # Race Detector
@@ -19,15 +19,6 @@ func (c *SafeCounter) Inc() {
 }
 ```
 
-## Commands
-```bash
-make setup        # Download dependencies
-make examples     # Run all examples
-make example-1    # Run basic race detection example
-make example-2    # Run common race patterns example
-make example-3    # Run race fixing example
-make test         # Run go test
-```
 
 ## Key Points
 - Data Race

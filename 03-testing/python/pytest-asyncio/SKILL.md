@@ -1,6 +1,6 @@
 ---
 name: testing-async-python
-description: This skill teaches asynchronous testing with pytest-asyncio for Python async/await code. Use when writing or improving tests.
+description: Asynchronous testing with pytest-asyncio for Python async/await code. Use when writing or improving tests.
 ---
 
 # Pytest Asyncio
@@ -15,15 +15,6 @@ async def test_async_function():
     assert result == expected
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run pytest
-make lint       # Run ruff and mypy
-make clean      # Remove build artifacts
-```
 
 ## Key Points
 - Async Tests

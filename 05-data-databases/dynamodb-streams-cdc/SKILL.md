@@ -1,6 +1,6 @@
 ---
 name: streaming-dynamodb-changes
-description: This skill teaches change data capture patterns using DynamoDB Streams, Lambda triggers, and event-driven architectures. Use when writing or improving tests.
+description: Change data capture patterns using DynamoDB Streams, Lambda triggers, and event-driven architectures. Use when writing or improving tests.
 ---
 
 # Dynamodb Streams Cdc
@@ -24,15 +24,6 @@ def handler(event, context):
             on_remove(keys, old_item)
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Basic stream processing
-make example-2  # Aggregation pattern
-make example-3  # Event-driven architecture
-make test       # Run pytest with mocked streams
-```
 
 ## Key Points
 - DynamoDB Streams

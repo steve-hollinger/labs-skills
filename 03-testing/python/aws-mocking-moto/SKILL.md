@@ -1,6 +1,6 @@
 ---
 name: mocking-aws-with-moto
-description: This skill teaches AWS service mocking using the moto library for testing code that interacts with AWS services. Use when writing or improving tests.
+description: AWS service mocking using the moto library for testing code that interacts with AWS services. Use when writing or improving tests.
 ---
 
 # Aws Mocking Moto
@@ -16,15 +16,6 @@ def test_s3_operations():
     # All operations are mocked
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run pytest
-make lint       # Run ruff and mypy
-make clean      # Remove build artifacts
-```
 
 ## Key Points
 - mock_aws Decorator

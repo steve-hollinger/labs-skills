@@ -1,6 +1,6 @@
 ---
 name: managing-go-concurrency
-description: This skill teaches Go's concurrency primitives and patterns for building concurrent applications. Use when writing or improving tests.
+description: Go's concurrency primitives and patterns for building concurrent applications. Use when writing or improving tests.
 ---
 
 # Concurrency
@@ -23,15 +23,6 @@ func WorkerPool(numWorkers int, jobs <-chan Job, results chan<- Result) {
 }
 ```
 
-## Commands
-```bash
-make setup      # Download dependencies
-make examples   # Run all examples
-make example-1  # Run goroutines/channels example
-make example-2  # Run worker pool example
-make example-3  # Run pipeline example
-make test       # Run go test
-```
 
 ## Key Points
 - Goroutines

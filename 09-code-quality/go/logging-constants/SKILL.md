@@ -1,6 +1,6 @@
 ---
 name: defining-logging-constants
-description: This skill teaches structured logging best practices in Go using constants to eliminate magic strings and ensure consistent, searchable log output. Use when writing or improving tests.
+description: Structured logging best practices in Go using constants to eliminate magic strings and ensure consistent, searchable log output. Use when writing or improving tests.
 ---
 
 # Logging Constants
@@ -25,15 +25,6 @@ const (
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Download dependencies
-make examples   # Run all examples
-make example-1  # Run basic constants example
-make example-2  # Run log level management example
-make example-3  # Run context propagation example
-make test       # Run go test
-```
 
 ## Key Points
 - Log Key Constants

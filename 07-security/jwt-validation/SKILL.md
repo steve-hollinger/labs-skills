@@ -1,6 +1,6 @@
 ---
 name: validating-jwt-tokens
-description: This skill teaches JWT token validation using Python's PyJWT library, covering token structure, claims validation, and signature verification. Use when implementing authentication or verifying tokens.
+description: JWT token validation using Python's PyJWT library, covering token structure, claims validation, and signature verification. Use when implementing authentication or verifying tokens.
 ---
 
 # Jwt Validation
@@ -25,15 +25,6 @@ def validate_token(token: str, secret: str) -> dict:
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Basic JWT validation
-make example-2  # RS256 with JWKS
-make example-3  # FastAPI middleware
-make test       # Run pytest
-```
 
 ## Key Points
 - JWT Structure

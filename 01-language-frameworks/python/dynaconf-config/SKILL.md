@@ -1,6 +1,6 @@
 ---
 name: configuring-with-dynaconf
-description: This skill teaches configuration management using Dynaconf, a powerful and flexible library for managing application settings in Python. Use when writing or improving tests.
+description: Configuration management using Dynaconf, a powerful and flexible library for managing application settings in Python. Use when writing or improving tests.
 ---
 
 # Dynaconf Config
@@ -17,15 +17,6 @@ settings = Dynaconf(
 )
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run basic configuration example
-make example-2  # Run multi-environment example
-make example-3  # Run validation example
-make example-4  # Run advanced features example
-```
 
 ## Key Points
 - Settings Files

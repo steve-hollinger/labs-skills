@@ -1,6 +1,6 @@
 ---
 name: initializing-test-loggers
-description: This skill teaches test initialization patterns in Go including TestMain, fixtures, helpers, and logging. Use when building or deploying containerized applications.
+description: Test initialization patterns in Go including TestMain, fixtures, helpers, and logging. Use when building or deploying containerized applications.
 ---
 
 # Test Logger Init
@@ -25,15 +25,6 @@ func TestMain(m *testing.M) {
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup          # Download dependencies
-make examples       # Run all examples
-make example-1      # Run TestMain basics example
-make example-2      # Run test fixtures example
-make example-3      # Run logger configuration example
-make test           # Run go test
-```
 
 ## Key Points
 - TestMain

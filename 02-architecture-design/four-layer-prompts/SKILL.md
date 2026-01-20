@@ -1,6 +1,6 @@
 ---
 name: structuring-four-layer-prompts
-description: This skill teaches structured prompt organization using a four-layer pattern that separates system identity, context, instructions, and constraints for maintainable LLM applications. Use when writing or improving tests.
+description: Structured prompt organization using a four-layer pattern that separates system identity, context, instructions, and constraints for maintainable LLM applications. Use when writing or improving tests.
 ---
 
 # Four Layer Prompts
@@ -19,15 +19,6 @@ class PromptLayers(BaseModel):
         return f"{self.system}\n\n{self.context}\n\n{self.instruction}\n\n{self.constraint}"
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run basic four-layer example
-make example-2  # Run template management example
-make example-3  # Run composition patterns example
-make example-4  # Run version management example
-```
 
 ## Key Points
 - System Layer

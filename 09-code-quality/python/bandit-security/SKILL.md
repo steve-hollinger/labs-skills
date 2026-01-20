@@ -1,6 +1,6 @@
 ---
 name: scanning-python-security
-description: This skill teaches security linting with Bandit to find vulnerabilities in Python code. Use when writing or improving tests.
+description: Security linting with Bandit to find vulnerabilities in Python code. Use when writing or improving tests.
 ---
 
 # Bandit Security
@@ -16,15 +16,6 @@ import subprocess
 subprocess.run(["echo", user_input], check=True)
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example (common vulnerabilities)
-make example-2  # Run specific example (configuration)
-make example-3  # Run specific example (CI integration)
-make test       # Run pytest
-```
 
 ## Key Points
 - Security Linting

@@ -1,6 +1,6 @@
 ---
 name: building-component-systems
-description: This skill teaches modular component architecture patterns in Python, including lifecycle management, dependency injection, and plugin systems. Use when writing or improving tests.
+description: Modular component architecture patterns in Python, including lifecycle management, dependency injection, and plugin systems. Use when writing or improving tests.
 ---
 
 # Component System
@@ -21,15 +21,6 @@ class MyComponent(Component):
         await super().stop()
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run pytest
-make lint       # Run ruff and mypy
-make clean      # Remove build artifacts
-```
 
 ## Key Points
 - Component

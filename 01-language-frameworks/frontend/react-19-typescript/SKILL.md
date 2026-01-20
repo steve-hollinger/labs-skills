@@ -1,6 +1,6 @@
 ---
 name: building-react-typescript-apps
-description: This skill teaches modern React development with TypeScript, covering React 19 features, component patterns, hooks, and type-safe application architecture. Use when writing or improving tests.
+description: Modern React development with TypeScript, covering React 19 features, component patterns, hooks, and type-safe application architecture. Use when writing or improving tests.
 ---
 
 # React 19 Typescript
@@ -22,15 +22,6 @@ function Greeting({ name, age }: GreetingProps) {
 }
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies
-make dev        # Start dev server with HMR
-make build      # Build for production
-make examples   # Run all examples
-make example-1  # Run component basics example
-make example-2  # Run hooks example
-```
 
 ## Key Points
 - Functional Components

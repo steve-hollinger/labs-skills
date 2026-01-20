@@ -1,6 +1,6 @@
 ---
 name: organizing-pytest-markers
-description: This skill teaches pytest markers for test organization, categorization, and selective execution. Use when writing or improving tests.
+description: Pytest markers for test organization, categorization, and selective execution. Use when writing or improving tests.
 ---
 
 # Pytest Markers
@@ -18,15 +18,6 @@ def test_unix_specific():
     pass
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run pytest
-make test-slow  # Run only slow-marked tests
-make test-fast  # Run tests not marked slow
-```
 
 ## Key Points
 - Built-in Markers

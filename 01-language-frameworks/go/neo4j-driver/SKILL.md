@@ -1,6 +1,6 @@
 ---
 name: using-neo4j-go-driver
-description: This skill teaches integration between Go applications and Neo4j graph database using the official neo4j-go-driver v5. Use when implementing authentication or verifying tokens.
+description: Integration between Go applications and Neo4j graph database using the official neo4j-go-driver v5. Use when implementing authentication or verifying tokens.
 ---
 
 # Neo4J Driver
@@ -25,15 +25,6 @@ func NewNeo4jClient(ctx context.Context, uri, username, password string) (*Neo4j
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Download dependencies with go mod
-make examples   # Run all examples
-make example-1  # Run basic CRUD example
-make example-2  # Run transaction patterns example
-make example-3  # Run graph patterns example
-make test       # Run go test
-```
 
 ## Key Points
 - Driver

@@ -1,19 +1,10 @@
 ---
 name: defining-fsd-dependencies
-description: This skill teaches FSD dependency configuration for AWS services (DynamoDB, S3, SQS, RDS) and cross-service integrations. Use when writing or improving tests.
+description: FSD dependency configuration for AWS services (DynamoDB, S3, SQS, RDS) and cross-service integrations. Use when writing or improving tests.
 ---
 
 # Fsd Dependencies
 
-## Commands
-```bash
-make validate-all        # Validate all dependency examples
-make validate YAML=file  # Validate a specific file
-make exercises           # List available exercises
-make check-solutions     # Validate exercise solutions
-make lint               # Run YAML linting
-make clean              # Remove temporary files
-```
 
 ## Key Points
 - Dependency Types

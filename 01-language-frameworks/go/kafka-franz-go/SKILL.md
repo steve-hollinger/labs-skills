@@ -1,6 +1,6 @@
 ---
 name: streaming-with-franz-go
-description: This skill teaches high-performance Kafka integration in Go using the franz-go library. Use when writing or improving tests.
+description: High-performance Kafka integration in Go using the franz-go library. Use when writing or improving tests.
 ---
 
 # Kafka Franz Go
@@ -25,15 +25,6 @@ func main() {
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Download dependencies
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run go test
-make test-race  # Run tests with race detector
-make lint       # Run golangci-lint
-```
 
 ## Key Points
 - franz-go Client

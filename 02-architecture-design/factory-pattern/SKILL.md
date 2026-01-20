@@ -1,6 +1,6 @@
 ---
 name: implementing-factory-patterns
-description: This skill teaches the factory pattern for dynamic object creation, including simple factories, abstract factories, registry patterns, and dependency injection integration. Use when building or deploying containerized applications.
+description: The factory pattern for dynamic object creation, including simple factories, abstract factories, registry patterns, and dependency injection integration. Use when building or deploying containerized applications.
 ---
 
 # Factory Pattern
@@ -23,15 +23,6 @@ def create_notification(type: str) -> Notification:
     raise ValueError(f"Unknown type: {type}")
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run simple factory example
-make example-2  # Run abstract factory example
-make example-3  # Run registry pattern example
-make example-4  # Run DI integration example
-```
 
 ## Key Points
 - Factory Method

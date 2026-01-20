@@ -9,7 +9,7 @@ description: Create effective Agent Skills with SKILL.md files following Anthrop
 ```yaml
 ---
 name: processing-pdfs
-description: This skill teaches PDF extraction. Use when working with PDF files.
+description: PDF extraction. Use when working with PDF files.
 ---
 
 # PDF Processing

@@ -1,6 +1,6 @@
 ---
 name: storing-content-addressed-s3
-description: This skill teaches content-addressed storage patterns using S3, including hash-based keys, deduplication, and immutable data architectures. Use when writing or improving tests.
+description: Content-addressed storage patterns using S3, including hash-based keys, deduplication, and immutable data architectures. Use when writing or improving tests.
 ---
 
 # S3 Content Addressed
@@ -25,15 +25,6 @@ def store_content(s3_client, bucket: str, data: bytes) -> str:
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Basic content-addressed store
-make example-2  # Deduplication system
-make example-3  # Git-like object store
-make test       # Run pytest with mocked S3
-```
 
 ## Key Points
 - Content Addressing

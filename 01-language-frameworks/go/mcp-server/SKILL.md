@@ -1,6 +1,6 @@
 ---
 name: building-mcp-servers
-description: This skill teaches building Model Context Protocol (MCP) servers in Go using the mcp-go library. MCP servers expose tools and resources to AI applications. Use when implementing authentication or verifying tokens.
+description: Building Model Context Protocol (MCP) servers in Go using the mcp-go library. MCP servers expose tools and resources to AI applications. Use when implementing authentication or verifying tokens.
 ---
 
 # Mcp Server
@@ -25,15 +25,6 @@ func main() {
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Download dependencies
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run go test
-make test-race  # Run tests with race detector
-make lint       # Run golangci-lint
-```
 
 ## Key Points
 - MCP Protocol

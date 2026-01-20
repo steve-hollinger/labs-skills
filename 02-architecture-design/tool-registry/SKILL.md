@@ -1,6 +1,6 @@
 ---
 name: building-tool-registries
-description: This skill teaches dynamic tool management patterns in Python, including registration, discovery, validation, and invocation systems. Use when implementing authentication or verifying tokens.
+description: Dynamic tool management patterns in Python, including registration, discovery, validation, and invocation systems. Use when implementing authentication or verifying tokens.
 ---
 
 # Tool Registry
@@ -17,15 +17,6 @@ async def greet(name: str) -> str:
     return f"Hello, {name}!"
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run pytest
-make lint       # Run ruff and mypy
-make clean      # Remove build artifacts
-```
 
 ## Key Points
 - Tool

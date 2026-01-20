@@ -1,6 +1,6 @@
 ---
 name: designing-mcp-tool-schemas
-description: This skill teaches how to define and validate tool schemas for the Model Context Protocol (MCP), enabling AI assistants to effectively use external tools. Use when writing or improving tests.
+description: How to define and validate tool schemas for the Model Context Protocol (MCP), enabling AI assistants to effectively use external tools. Use when writing or improving tests.
 ---
 
 # Mcp Tool Schemas
@@ -23,15 +23,6 @@ tool = ToolDefinition(
 )
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run basic tool definition example
-make example-2  # Run complex schema example
-make example-3  # Run tool server example
-make test       # Run pytest
-```
 
 ## Key Points
 - Tool Definition

@@ -1,6 +1,6 @@
 ---
 name: caching-with-valkey
-description: This skill teaches caching patterns using Valkey (Redis-compatible) with Python's redis-py library. Use when implementing authentication or verifying tokens.
+description: Caching patterns using Valkey (Redis-compatible) with Python's redis-py library. Use when implementing authentication or verifying tokens.
 ---
 
 # Valkey Redis
@@ -22,15 +22,6 @@ client = redis.Redis(connection_pool=pool)
 client.ping()
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run pytest
-make lint       # Run ruff and mypy
-make clean      # Remove build artifacts
-```
 
 ## Key Points
 - Caching

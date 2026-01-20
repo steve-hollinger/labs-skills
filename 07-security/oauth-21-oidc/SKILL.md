@@ -27,15 +27,6 @@ async def login(request: Request):
     return await oauth.provider.authorize_redirect(request, redirect_uri)
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Authorization Code flow
-make example-2  # PKCE flow for SPAs
-make example-3  # Token refresh
-make test       # Run pytest
-```
 
 ## Key Points
 - OAuth 2.1 consolidates best practices (PKCE required, no implicit flow)

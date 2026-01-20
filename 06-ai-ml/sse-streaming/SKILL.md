@@ -1,6 +1,6 @@
 ---
 name: streaming-server-sent-events
-description: This skill teaches Server-Sent Events (SSE) for streaming LLM responses including the protocol, FastAPI endpoints, and client consumption. Use when writing or improving tests.
+description: Server-Sent Events (SSE) for streaming LLM responses including the protocol, FastAPI endpoints, and client consumption. Use when writing or improving tests.
 ---
 
 # Sse Streaming
@@ -14,15 +14,6 @@ async def event_generator():
     yield "data: [DONE]\n\n"
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make run-server # Start FastAPI server with uvicorn
-make test-client # Run test client against server
-make examples   # Run all examples
-make example-1  # Run basic SSE endpoint example
-make example-2  # Run LLM streaming example
-```
 
 ## Key Points
 - SSE Protocol

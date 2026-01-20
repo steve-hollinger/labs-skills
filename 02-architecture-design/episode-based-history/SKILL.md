@@ -1,6 +1,6 @@
 ---
 name: managing-episode-history
-description: This skill teaches conversation history management using episode boundaries, summarization strategies, and memory optimization patterns for LLM applications. Use when writing or improving tests.
+description: Conversation history management using episode boundaries, summarization strategies, and memory optimization patterns for LLM applications. Use when writing or improving tests.
 ---
 
 # Episode Based History
@@ -25,15 +25,6 @@ class Episode:
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run basic episode management
-make example-2  # Run history summarization
-make example-3  # Run smart context building
-make example-4  # Run persistent storage
-```
 
 ## Key Points
 - Episode

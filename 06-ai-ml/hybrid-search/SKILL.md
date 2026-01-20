@@ -1,6 +1,6 @@
 ---
 name: implementing-hybrid-search
-description: This skill teaches how to build hybrid search systems that combine vector similarity search with keyword-based (BM25) search for optimal retrieval performance. Use when writing or improving tests.
+description: How to build hybrid search systems that combine vector similarity search with keyword-based (BM25) search for optimal retrieval performance. Use when writing or improving tests.
 ---
 
 # Hybrid Search
@@ -23,15 +23,6 @@ bm25 = BM25Okapi(tokenized)
 keyword_scores = bm25.get_scores(query.lower().split())
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run basic hybrid search example
-make example-2  # Run score fusion comparison
-make example-3  # Run production pipeline example
-make test       # Run pytest
-```
 
 ## Key Points
 - Vector Search

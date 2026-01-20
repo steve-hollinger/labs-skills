@@ -1,6 +1,6 @@
 ---
 name: evaluating-with-opik
-description: This skill teaches LLM evaluation using the Opik framework, including tracing, metrics, and experiment tracking. Use when writing or improving tests.
+description: LLM evaluation using the Opik framework, including tracing, metrics, and experiment tracking. Use when writing or improving tests.
 ---
 
 # Opik Evaluation
@@ -25,15 +25,6 @@ results = evaluate(
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run pytest
-make lint       # Run ruff and mypy
-make clean      # Remove build artifacts
-```
 
 ## Key Points
 - Evaluation

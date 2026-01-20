@@ -1,6 +1,6 @@
 ---
 name: validating-with-pydantic
-description: This skill teaches data validation, serialization, and settings management using Pydantic v2, the most widely-used data validation library for Python. Use when writing or improving tests.
+description: Data validation, serialization, and settings management using Pydantic v2, the most widely-used data validation library for Python. Use when writing or improving tests.
 ---
 
 # Pydantic V2
@@ -15,15 +15,6 @@ class User(BaseModel):
     email: str
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run basic models example
-make example-2  # Run validators example
-make example-3  # Run serialization example
-make example-4  # Run composition example
-```
 
 ## Key Points
 - BaseModel

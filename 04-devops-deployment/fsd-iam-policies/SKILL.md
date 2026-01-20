@@ -21,13 +21,6 @@ iam:
         - arn:aws:dynamodb:*:*:table/${TABLE_NAME}/index/*
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies
-make examples   # Show example policies
-make validate   # Validate policy syntax
-make test       # Run tests
-```
 
 ## Key Points
 - Always use least-privilege (minimum required permissions)

@@ -1,6 +1,6 @@
 ---
 name: testing-with-containers
-description: This skill teaches integration testing with Testcontainers-Go for real service dependencies. Use when building or deploying containerized applications.
+description: Integration testing with Testcontainers-Go for real service dependencies. Use when building or deploying containerized applications.
 ---
 
 # Testcontainers
@@ -22,15 +22,6 @@ func SetupPostgres(ctx context.Context) (*postgres.PostgresContainer, error) {
 }
 ```
 
-## Commands
-```bash
-make setup            # Download dependencies
-make examples         # Run all examples
-make example-1        # Run PostgreSQL example
-make example-2        # Run DynamoDB example
-make example-3        # Run Kafka example
-make test             # Run unit tests
-```
 
 ## Key Points
 - Testcontainers

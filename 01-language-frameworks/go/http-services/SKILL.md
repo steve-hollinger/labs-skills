@@ -1,6 +1,6 @@
 ---
 name: building-http-services
-description: This skill teaches building HTTP APIs using Go's standard library `net/http` package without external frameworks. Use when implementing authentication or verifying tokens.
+description: Building HTTP APIs using Go's standard library `net/http` package without external frameworks. Use when implementing authentication or verifying tokens.
 ---
 
 # Http Services
@@ -22,15 +22,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-## Commands
-```bash
-make setup      # Download dependencies
-make examples   # Run all examples
-make example-1  # Run basic server example
-make example-2  # Run middleware example
-make example-3  # Run production API example
-make test       # Run go test
-```
 
 ## Key Points
 - http.Handler Interface

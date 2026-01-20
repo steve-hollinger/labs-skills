@@ -1,6 +1,6 @@
 ---
 name: streaming-kafka-events
-description: This skill teaches event-driven architecture using Apache Kafka with Python's confluent-kafka library. Use when writing or improving tests.
+description: Event-driven architecture using Apache Kafka with Python's confluent-kafka library. Use when writing or improving tests.
 ---
 
 # Kafka Event Streaming
@@ -25,15 +25,6 @@ producer.produce(
     # ... see docs/patterns.md for more
 ```
 
-## Commands
-```bash
-make setup      # Install dependencies with UV
-make examples   # Run all examples
-make example-1  # Run specific example
-make test       # Run pytest
-make lint       # Run ruff and mypy
-make clean      # Remove build artifacts
-```
 
 ## Key Points
 - Event-Driven Architecture
