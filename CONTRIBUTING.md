@@ -68,8 +68,8 @@ description: Build something cool with X. Use when Y.
 2. **Another mistake** - How to avoid it
 
 ## More Detail
-- [docs/concepts.md](docs/concepts.md) - Core concepts
-- [docs/patterns.md](docs/patterns.md) - Code patterns
+- docs/concepts.md - Core concepts
+- docs/patterns.md - Code patterns
 ```
 
 **Format rules:**
