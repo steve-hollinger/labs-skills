@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Example 1: Layout Fundamentals</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+  <div class="mx-auto max-w-6xl p-8">
+    <h1 class="mb-8 text-3xl font-bold text-gray-900 dark:text-white">
+      Layout Fundamentals
+    </h1>
+
+    <!-- Section: Flexbox -->
+    <section class="mb-12">
+      <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+        Flexbox Layouts
+      </h2>
+
+      <!-- Row layout -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Row (default)</h3>
+        <div class="flex gap-4">
+          <div class="rounded bg-blue-500 p-4 text-white">Item 1</div>
+          <div class="rounded bg-blue-500 p-4 text-white">Item 2</div>
+          <div class="rounded bg-blue-500 p-4 text-white">Item 3</div>
+        </div>
+      </div>
+
+      <!-- Column layout -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Column</h3>
+        <div class="flex flex-col gap-4">
+          <div class="rounded bg-green-500 p-4 text-white">Item 1</div>
+          <div class="rounded bg-green-500 p-4 text-white">Item 2</div>
+          <div class="rounded bg-green-500 p-4 text-white">Item 3</div>
+        </div>
+      </div>
+
+      <!-- Justify content -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Justify Content</h3>
+        <div class="space-y-4">
+          <div class="flex justify-start gap-2 rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">start</span>
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">items</span>
+          </div>
+          <div class="flex justify-center gap-2 rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">center</span>
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">items</span>
+          </div>
+          <div class="flex justify-end gap-2 rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">end</span>
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">items</span>
+          </div>
+          <div class="flex justify-between rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">between</span>
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">items</span>
+          </div>
+          <div class="flex justify-around rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">around</span>
+            <span class="rounded bg-purple-500 px-3 py-1 text-white">items</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Align items -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Align Items</h3>
+        <div class="flex gap-4">
+          <div class="flex h-32 w-1/4 items-start rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="rounded bg-orange-500 p-2 text-white">start</span>
+          </div>
+          <div class="flex h-32 w-1/4 items-center rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="rounded bg-orange-500 p-2 text-white">center</span>
+          </div>
+          <div class="flex h-32 w-1/4 items-end rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="rounded bg-orange-500 p-2 text-white">end</span>
+          </div>
+          <div class="flex h-32 w-1/4 items-stretch rounded bg-gray-100 p-2 dark:bg-gray-700">
+            <span class="flex items-center rounded bg-orange-500 p-2 text-white">stretch</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Grid -->
+    <section class="mb-12">
+      <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+        CSS Grid Layouts
+      </h2>
+
+      <!-- Fixed columns -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">3 Columns</h3>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="rounded bg-teal-500 p-4 text-center text-white">1</div>
+          <div class="rounded bg-teal-500 p-4 text-center text-white">2</div>
+          <div class="rounded bg-teal-500 p-4 text-center text-white">3</div>
+          <div class="rounded bg-teal-500 p-4 text-center text-white">4</div>
+          <div class="rounded bg-teal-500 p-4 text-center text-white">5</div>
+          <div class="rounded bg-teal-500 p-4 text-center text-white">6</div>
+        </div>
+      </div>
+
+      <!-- Column span -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Column Spanning</h3>
+        <div class="grid grid-cols-4 gap-4">
+          <div class="col-span-2 rounded bg-pink-500 p-4 text-center text-white">col-span-2</div>
+          <div class="rounded bg-pink-500 p-4 text-center text-white">1</div>
+          <div class="rounded bg-pink-500 p-4 text-center text-white">1</div>
+          <div class="rounded bg-pink-500 p-4 text-center text-white">1</div>
+          <div class="col-span-3 rounded bg-pink-500 p-4 text-center text-white">col-span-3</div>
+          <div class="col-span-full rounded bg-pink-500 p-4 text-center text-white">col-span-full</div>
+        </div>
+      </div>
+
+      <!-- Responsive grid -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Responsive Grid</h3>
+        <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">
+          1 col mobile, 2 cols tablet, 3 cols desktop
+        </p>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded bg-indigo-500 p-4 text-center text-white">Item 1</div>
+          <div class="rounded bg-indigo-500 p-4 text-center text-white">Item 2</div>
+          <div class="rounded bg-indigo-500 p-4 text-center text-white">Item 3</div>
+          <div class="rounded bg-indigo-500 p-4 text-center text-white">Item 4</div>
+          <div class="rounded bg-indigo-500 p-4 text-center text-white">Item 5</div>
+          <div class="rounded bg-indigo-500 p-4 text-center text-white">Item 6</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Positioning -->
+    <section class="mb-12">
+      <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+        Positioning
+      </h2>
+
+      <!-- Relative/Absolute -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Relative & Absolute</h3>
+        <div class="relative h-48 rounded bg-gray-100 dark:bg-gray-700">
+          <div class="absolute left-0 top-0 rounded bg-red-500 p-2 text-white">top-left</div>
+          <div class="absolute right-0 top-0 rounded bg-red-500 p-2 text-white">top-right</div>
+          <div class="absolute bottom-0 left-0 rounded bg-red-500 p-2 text-white">bottom-left</div>
+          <div class="absolute bottom-0 right-0 rounded bg-red-500 p-2 text-white">bottom-right</div>
+          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded bg-red-500 p-2 text-white">
+            center
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Spacing -->
+    <section class="mb-12">
+      <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+        Spacing
+      </h2>
+
+      <!-- Padding -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Padding</h3>
+        <div class="flex gap-4">
+          <div class="bg-amber-500 p-2 text-white">p-2</div>
+          <div class="bg-amber-500 p-4 text-white">p-4</div>
+          <div class="bg-amber-500 p-6 text-white">p-6</div>
+          <div class="bg-amber-500 px-6 py-2 text-white">px-6 py-2</div>
+        </div>
+      </div>
+
+      <!-- Margin -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Margin</h3>
+        <div class="flex rounded bg-gray-100 dark:bg-gray-700">
+          <div class="m-2 bg-cyan-500 p-2 text-white">m-2</div>
+          <div class="m-4 bg-cyan-500 p-2 text-white">m-4</div>
+          <div class="mx-8 bg-cyan-500 p-2 text-white">mx-8</div>
+        </div>
+      </div>
+
+      <!-- Gap -->
+      <div class="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+        <h3 class="mb-3 font-medium text-gray-700 dark:text-gray-300">Gap</h3>
+        <div class="flex flex-wrap gap-4">
+          <div class="bg-emerald-500 p-4 text-white">gap-4</div>
+          <div class="bg-emerald-500 p-4 text-white">between</div>
+          <div class="bg-emerald-500 p-4 text-white">items</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

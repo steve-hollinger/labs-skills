@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind CSS 4 Skill</title>
+</head>
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
+  <div class="mx-auto max-w-4xl p-8">
+    <div class="mb-8 flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-blue-600">Tailwind CSS 4</h1>
+
+      <!-- Theme toggle -->
+      <button
+        id="theme-toggle"
+        class="rounded-lg bg-gray-200 p-2 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+      >
+        <svg class="hidden h-5 w-5 dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg class="block h-5 w-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+    </div>
+
+    <p class="mb-8 text-gray-600 dark:text-gray-400">
+      Utility-First CSS Framework for Rapid UI Development
+    </p>
+
+    <section class="mb-8 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+      <h2 class="mb-4 text-xl font-semibold">Examples</h2>
+      <ul class="space-y-2">
+        <li>
+          <a href="/src/examples/01-layout-fundamentals/index.html" class="text-blue-600 hover:underline dark:text-blue-400">
+            Example 1: Layout Fundamentals
+          </a>
+        </li>
+        <li>
+          <a href="/src/examples/02-component-patterns/index.html" class="text-blue-600 hover:underline dark:text-blue-400">
+            Example 2: Component Patterns
+          </a>
+        </li>
+        <li>
+          <a href="/src/examples/03-responsive-design/index.html" class="text-blue-600 hover:underline dark:text-blue-400">
+            Example 3: Responsive Design
+          </a>
+        </li>
+        <li>
+          <a href="/src/examples/04-dark-mode-theming/index.html" class="text-blue-600 hover:underline dark:text-blue-400">
+            Example 4: Dark Mode and Theming
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mb-8 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+      <h2 class="mb-4 text-xl font-semibold">Quick Start</h2>
+      <pre class="rounded bg-gray-100 p-4 text-sm dark:bg-gray-900">make setup      # Install dependencies
+make dev        # Start dev server
+make examples   # Run examples
+make test       # Run tests</pre>
+    </section>
+
+    <section class="rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+      <h2 class="mb-4 text-xl font-semibold">Key Features</h2>
+      <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+        <li class="flex items-start gap-2">
+          <span class="text-green-500">&#10003;</span>
+          <span><strong>Utility Classes</strong> - Pre-built, single-purpose CSS classes</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500">&#10003;</span>
+          <span><strong>Responsive Design</strong> - Mobile-first breakpoint prefixes</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500">&#10003;</span>
+          <span><strong>Dark Mode</strong> - Built-in dark mode support</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500">&#10003;</span>
+          <span><strong>Customization</strong> - Extend via configuration</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500">&#10003;</span>
+          <span><strong>Performance</strong> - Minimal CSS in production</span>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
