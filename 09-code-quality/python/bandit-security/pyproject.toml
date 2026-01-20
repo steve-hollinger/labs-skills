@@ -1,0 +1,76 @@
+[project]
+name = "bandit_security"
+version = "0.1.0"
+description = "Labs Skills: Bandit Security - Learn Python security linting"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "bandit>=1.7.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bandit_security"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM", "S"]
+ignore = ["S101"]  # Allow assert in tests
+
+[tool.ruff.lint.per-file-ignores]
+# Allow security issues in example files (they're intentionally vulnerable)
+"src/bandit_security/examples/*" = ["S"]
+"exercises/*" = ["S"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+# ============================================
+# Bandit Configuration - This is the main focus!
+# ============================================
+
+[tool.bandit]
+# Directories to exclude from scanning
+exclude_dirs = [
+    "tests",
+    ".venv",
+    "venv",
+    "__pycache__",
+]
+
+# Tests to skip globally (use sparingly)
+skips = []
+
+# Aggregate output by severity
+# aggregate = "file"
+
+# Only report issues of this level or higher
+# severity = "medium"
+
+# Configuration for specific plugins
+[tool.bandit.assert_used]
+# Skip assert check in test files
+skips = ["*_test.py", "test_*.py", "**/tests/**"]
