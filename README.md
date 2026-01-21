@@ -1,6 +1,6 @@
 # Labs Skills
 
-A collection of **68 Agent Skills** for modern software development, following [Anthropic's Agent Skills format](https://docs.anthropic.com/en/docs/claude-code/skills).
+A collection of **72 Agent Skills** for modern software development, following [Anthropic's Agent Skills format](https://docs.anthropic.com/en/docs/claude-code/skills).
 
 ## Categories
 
@@ -9,8 +9,8 @@ A collection of **68 Agent Skills** for modern software development, following [
 | 01 | language-frameworks | 13 | Python, Go, Frontend |
 | 02 | architecture-design | 7 | Design patterns and architecture |
 | 03 | testing | 7 | Testing frameworks and strategies |
-| 04 | devops-deployment | 6 | Docker, CI/CD, FSD |
-| 05 | data-databases | 7 | Storage, streaming, caching |
+| 04 | devops-deployment | 9 | Docker, CI/CD, FSD |
+| 05 | data-databases | 8 | Storage, streaming, caching |
 | 06 | ai-ml | 5 | LLM integration, search, evaluation |
 | 07 | security | 5 | Auth, secrets, validation |
 | 08 | documentation | 4 | Standards and practices |
@@ -71,21 +71,26 @@ A collection of **68 Agent Skills** for modern software development, following [
 </details>
 
 <details>
-<summary><strong>04 - DevOps & Deployment (6 skills)</strong></summary>
+<summary><strong>04 - DevOps & Deployment (9 skills)</strong></summary>
 
 | Skill | Name | Description |
 |-------|------|-------------|
+| containerizing-python-services | containerizing-python-services | Docker containers for Python apps |
+| deploying-fsd-ecs | deploying-fsd-ecs | Deploy Python services to ECS using FSD |
+| deploying-your-first-service | deploying-your-first-service | End-to-end deployment tutorial for ECS staging |
 | docker-compose | composing-docker-services | Multi-container orchestration |
 | docker-ecr | building-docker-images | Docker and AWS ECR workflows |
 | fsd-dependencies | defining-fsd-dependencies | FSD dependency configuration |
 | fsd-iam-policies | creating-iam-policies | IAM policies for FSD services |
 | fsd-yaml-config | configuring-fsd-services | FSD YAML configuration |
 | github-actions | automating-with-github-actions | CI/CD with GitHub Actions |
+| troubleshooting-ecs-deployments | troubleshooting-ecs-deployments | Debug ECS deployment failures |
+| understanding-ecs-resources | understanding-ecs-resources | Right-size ECS/Fargate CPU and memory |
 
 </details>
 
 <details>
-<summary><strong>05 - Data & Databases (7 skills)</strong></summary>
+<summary><strong>05 - Data & Databases (8 skills)</strong></summary>
 
 | Skill | Name | Description |
 |-------|------|-------------|
@@ -96,6 +101,7 @@ A collection of **68 Agent Skills** for modern software development, following [
 | neo4j-date-datetime | handling-neo4j-dates | Temporal data in Neo4j |
 | s3-content-addressed | storing-content-addressed-s3 | Content-addressed storage with S3 |
 | valkey-redis | caching-with-valkey | Caching with Valkey/Redis |
+| working-with-sqlite | working-with-sqlite | SQLite for simple services with file-based storage |
 
 </details>
 

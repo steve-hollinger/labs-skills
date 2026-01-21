@@ -30,8 +30,8 @@ def create_app() -> FastAPI:
 ```
 
 ## Key Points
+- **Health check endpoint is required for ECS** - Add `GET /health` that returns 200 status. Without this, ECS tasks fail health checks and restart continuously.
 - Use `lifespan` context manager for startup/shutdown (replaces deprecated `on_event`)
-- Always include `/health` endpoint for ECS health checks
 - Instrument with OpenTelemetry using `FastAPIInstrumentor.instrument_app(app)`
 - Disable `/docs` in production: `docs_url="/docs" if env != "prod" else None`
 - Use dependency injection for services instead of global state
