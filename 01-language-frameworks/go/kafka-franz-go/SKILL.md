@@ -1,0 +1,36 @@
+---
+name: streaming-with-franz-go
+description: High-performance Kafka integration in Go using the franz-go library. Use when writing or improving tests.
+---
+
+# Kafka Franz Go
+
+## Quick Start
+```go
+package main
+
+import (
+    "context"
+    "github.com/twmb/franz-go/pkg/kgo"
+)
+
+func main() {
+    client, err := kgo.NewClient(
+        kgo.SeedBrokers("localhost:9092"),
+    )
+    if err != nil {
+        panic(err)
+    }
+    defer client.Close()
+    # ... see docs/patterns.md for more
+```
+
+
+## Key Points
+- franz-go Client
+- Producing
+- Consuming
+
+## More Detail
+- [docs/concepts.md](docs/concepts.md) - Core concepts and theory
+- [docs/patterns.md](docs/patterns.md) - Full code patterns and examples
