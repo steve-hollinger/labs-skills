@@ -2,119 +2,83 @@
 
 ## Overview
 
-FSD Dependencies define the external resources your service needs to function. This includes databases, storage, messaging systems, and other services. By declaring dependencies explicitly, FSD can automatically provision resources, generate IAM policies, and ensure proper connectivity.
+FSD Dependencies define the external resources your service needs. There are two types:
 
-## Concept 1: Dependency Declaration
+- **Managed**: FSD creates and manages the resource (requires full schema)
+- **Unmanaged**: FSD grants permissions to an existing resource (requires `unmanaged.permissions`)
+
+## Concept 1: Managed Dependencies
 
 ### What It Is
 
-Dependencies are declared as an array in your FSD YAML file. Each dependency has a type, name, and access mode that determines how your service interacts with the resource.
+Managed dependencies are AWS resources that FSD creates and manages for your service. You define the full resource schema and FSD provisions it.
 
-### Why It Matters
+### When to Use
 
-Explicit dependency declaration enables:
-- Automatic IAM policy generation with least-privilege access
-- Resource provisioning and lifecycle management
-- Service topology visualization and validation
-- Consistent configuration across environments
+Use managed dependencies when:
+- Your service owns the resource
+- The resource doesn't exist yet
+- You want FSD to handle the resource lifecycle
 
 ### How It Works
 
 ```yaml
-name: order-service
-platform: ecs
-
 dependencies:
-  # Database for storing orders
+  # FSD creates this DynamoDB table
   - type: aws_dynamodb_table
-    name: orders
-    mode: read_write
-
-  # Bucket for order attachments
-  - type: aws_s3_bucket
-    name: order-attachments
-    mode: read_write
-
-  # Queue for async notifications
-  - type: aws_sqs_queue
-    name: order-notifications
-    mode: producer
+    table_name: orders
+    key_schema:
+      - attribute_name: id
+        key_type: HASH
+    attribute_definitions:
+      - attribute_name: id
+        attribute_type: S
+    billing_mode: PAY_PER_REQUEST
 ```
 
-**Dependency Structure:**
-- `type`: The kind of resource (aws_dynamodb_table, aws_s3_bucket, etc.)
-- `name`: The logical name of the resource
-- `mode`: How your service accesses the resource (read, write, consumer, etc.)
+**Required Fields (DynamoDB):**
+- `type`: Must be `aws_dynamodb_table`
+- `table_name`: The table name
+- `key_schema`: Primary key definition (HASH, optionally RANGE)
+- `attribute_definitions`: Attribute types (S, N, B)
 
-## Concept 2: Access Modes
+## Concept 2: Unmanaged Dependencies
 
 ### What It Is
 
-Access modes define the operations your service can perform on a dependency. FSD uses these to generate appropriate IAM policies.
+Unmanaged dependencies reference existing AWS resources. FSD grants your service IAM permissions to access them without creating or modifying the resource.
 
-### Why It Matters
+### When to Use
 
-Using correct access modes ensures:
-- Least-privilege security principle
-- Clear documentation of service capabilities
-- Automatic IAM policy generation
-- Prevention of accidental destructive operations
+Use unmanaged dependencies when:
+- The resource is owned by another service
+- The resource was created outside FSD
+- You only need access permissions, not ownership
 
 ### How It Works
 
-#### Storage Access Modes
-
 ```yaml
-# Read-only access
 dependencies:
+  # Grant read access to existing table
   - type: aws_dynamodb_table
-    name: config
-    mode: read          # GetItem, Query, Scan only
+    table_name: shared-config
+    unmanaged:
+      permissions: read    # read, write, or read_write
 
-# Write-only access
-dependencies:
+  # Grant write access to existing S3 bucket
   - type: aws_s3_bucket
-    name: logs
-    mode: write         # PutObject, DeleteObject only
-
-# Full access
-dependencies:
-  - type: aws_dynamodb_table
-    name: users
-    mode: read_write    # All operations
+    bucket_name: shared-uploads
+    unmanaged:
+      permissions: write
 ```
 
-#### Messaging Access Modes
+**Permission Levels:**
 
-```yaml
-# Consumer reads from queue
-dependencies:
-  - type: aws_sqs_queue
-    name: tasks
-    mode: consumer      # ReceiveMessage, DeleteMessage
-
-# Producer sends to queue
-dependencies:
-  - type: aws_sqs_queue
-    name: notifications
-    mode: producer      # SendMessage
-
-# Publisher sends to topic
-dependencies:
-  - type: aws_sns_topic
-    name: events
-    mode: producer      # Publish
-```
-
-**Mode Reference Table:**
-
-| Resource Type | read | write | read_write | consumer | producer |
-|--------------|------|-------|------------|----------|----------|
-| DynamoDB | Get, Query, Scan | Put, Update, Delete | All | - | - |
-| S3 | Get, List | Put, Delete | All | - | - |
-| SQS | - | - | - | Receive, Delete | Send |
-| SNS | - | - | - | - | Publish |
-| Kinesis | - | - | - | GetRecords | PutRecord |
+| Permission | DynamoDB | S3 |
+|------------|----------|-----|
+| `read` | GetItem, Query, Scan, BatchGetItem | GetObject, ListBucket |
+| `write` | PutItem, UpdateItem, DeleteItem, BatchWriteItem | PutObject, DeleteObject |
+| `read_write` | All read + write operations | All read + write operations |
 
 ## Concept 3: IAM Policy Generation
 
@@ -133,11 +97,12 @@ Automatic policy generation provides:
 ### How It Works
 
 ```yaml
-# This dependency declaration...
+# This unmanaged dependency declaration...
 dependencies:
   - type: aws_dynamodb_table
-    name: users
-    mode: read
+    table_name: users
+    unmanaged:
+      permissions: read
 
 # Generates this IAM policy statement:
 # {
@@ -155,242 +120,97 @@ dependencies:
 # }
 ```
 
-**Complex Example:**
+**Managed dependencies** also generate IAM permissions automatically - you don't need to specify permissions separately when FSD creates the resource.
 
-```yaml
-dependencies:
-  - type: aws_s3_bucket
-    name: documents
-    mode: read_write
-    prefix: uploads/        # Restricts access to prefix
-    encryption:
-      enabled: true
-      kms_key: ${kms:documents-key}
+## Concept 4: DynamoDB Dependencies
 
-# Generates:
-# {
-#   "Effect": "Allow",
-#   "Action": [
-#     "s3:GetObject",
-#     "s3:PutObject",
-#     "s3:DeleteObject",
-#     "s3:ListBucket"
-#   ],
-#   "Resource": [
-#     "arn:aws:s3:::documents/uploads/*",
-#     "arn:aws:s3:::documents"
-#   ],
-#   "Condition": {
-#     "StringLike": {
-#       "s3:prefix": ["uploads/*"]
-#     }
-#   }
-# }
-# Plus KMS permissions for the specified key
-```
+### Managed DynamoDB Table
 
-## Concept 4: Database Dependencies
-
-### What It Is
-
-Database dependencies include DynamoDB tables, RDS instances, and ElastiCache clusters. Each has specific configuration options for access patterns, encryption, and connectivity.
-
-### Why It Matters
-
-Proper database dependency configuration ensures:
-- Correct network connectivity
-- Appropriate credential management
-- Optimized query permissions
-- Data encryption compliance
-
-### How It Works
-
-#### DynamoDB Tables
+FSD creates and manages the table:
 
 ```yaml
 dependencies:
   - type: aws_dynamodb_table
-    name: orders
-    mode: read_write
+    table_name: orders
+    key_schema:
+      - attribute_name: id
+        key_type: HASH
+      - attribute_name: created_at
+        key_type: RANGE
+    attribute_definitions:
+      - attribute_name: id
+        attribute_type: S
+      - attribute_name: created_at
+        attribute_type: N
+    billing_mode: PAY_PER_REQUEST
+```
 
-    # Specific index access
-    indexes:
-      - name: status-index
-        mode: read
-      - name: customer-index
-        mode: read
+### Unmanaged DynamoDB Table
 
-    # DynamoDB Streams access
-    streams:
+Grant permissions to an existing table:
+
+```yaml
+dependencies:
+  - type: aws_dynamodb_table
+    table_name: shared-config
+    unmanaged:
+      permissions: read  # or write, read_write
+```
+
+### DynamoDB with Data Pipeline (CDC)
+
+Enable Change Data Capture streaming to Kafka:
+
+```yaml
+dependencies:
+  - type: fetch_msk_cluster
+    name: cdc
+  - type: aws_dynamodb_table
+    table_name: orders
+    key_schema:
+      - attribute_name: id
+        key_type: HASH
+    attribute_definitions:
+      - attribute_name: id
+        attribute_type: S
+    data_pipeline:
       enabled: true
-      mode: consumer
+      snowflake:
+        enabled: true
+        dedupe_key: [id]
 ```
 
-#### RDS Databases
+## Concept 5: S3 Dependencies
+
+### Managed S3 Bucket
+
+FSD creates the bucket:
 
 ```yaml
 dependencies:
-  - type: aws_rds_instance
-    name: postgres-main
-    database: orders_db
-    credentials: ${secrets:orders/db-credentials}
-    ssl_mode: verify-full
-
-    # Connection pooling
-    connection:
-      max_connections: 10
-      idle_timeout: 300
+  - type: aws_s3_bucket
+    bucket_name: my-uploads
 ```
 
-#### ElastiCache
+### Unmanaged S3 Bucket
+
+Grant permissions to existing bucket:
 
 ```yaml
 dependencies:
-  - type: aws_elasticache
-    name: session-cache
-    engine: redis
-    mode: read_write
-
-    # Cluster configuration
-    cluster:
-      mode: cluster
-      node_type: cache.t3.micro
-```
-
-## Concept 5: Messaging Dependencies
-
-### What It Is
-
-Messaging dependencies include SQS queues, SNS topics, Kinesis streams, and Kafka topics. These enable asynchronous communication between services.
-
-### Why It Matters
-
-Proper messaging configuration ensures:
-- Reliable message delivery
-- Appropriate batch processing
-- Dead letter queue handling
-- Consumer group management
-
-### How It Works
-
-#### SQS Queues
-
-```yaml
-dependencies:
-  # Consumer configuration
-  - type: aws_sqs_queue
-    name: order-tasks
-    mode: consumer
-    batch_size: 10
-    visibility_timeout: 300
-    wait_time_seconds: 20
-
-  # Producer configuration
-  - type: aws_sqs_queue
-    name: notifications
-    mode: producer
-    message_group_id: orders    # For FIFO queues
-```
-
-#### Kafka Topics
-
-```yaml
-dependencies:
-  - type: kafka_topic
-    name: order-events
-    mode: consumer
-    consumer_group: order-processor
-    bootstrap_servers: ${ssm:/kafka/bootstrap}
-
-    # Consumer configuration
-    auto_offset_reset: earliest
-    enable_auto_commit: false
-
-  - type: kafka_topic
-    name: shipping-events
-    mode: producer
-    bootstrap_servers: ${ssm:/kafka/bootstrap}
-```
-
-#### Kinesis Streams
-
-```yaml
-dependencies:
-  - type: aws_kinesis_stream
-    name: clickstream
-    mode: consumer
-    shard_iterator_type: LATEST
-
-    # Enhanced fan-out for high-throughput
-    enhanced_fan_out:
-      enabled: true
-      consumer_name: analytics-processor
-```
-
-## Concept 6: Cross-Service Dependencies
-
-### What It Is
-
-Cross-service dependencies define how your service communicates with other FSD services, enabling microservice architectures with proper service discovery.
-
-### Why It Matters
-
-Service dependencies enable:
-- Automatic service discovery
-- Network policy configuration
-- Dependency graph visualization
-- Deployment ordering
-
-### How It Works
-
-```yaml
-name: checkout-service
-platform: ecs
-
-dependencies:
-  # Depends on user service for authentication
-  - type: service
-    name: user-service
-    mode: client
-    discovery:
-      method: dns
-      namespace: production
-
-  # Depends on inventory service for stock checks
-  - type: service
-    name: inventory-service
-    mode: client
-    discovery:
-      method: service_mesh
-      timeout: 5000
-
-  # Depends on payment service (external)
-  - type: service
-    name: payment-gateway
-    mode: client
-    external: true
-    endpoint: ${ssm:/checkout/payment-gateway-url}
-```
-
-**Service URL Access:**
-
-```yaml
-# In environment variables, reference discovered service
-environment:
-  USER_SERVICE_URL: ${service:user-service:url}
-  INVENTORY_SERVICE_URL: ${service:inventory-service:url}
-  PAYMENT_GATEWAY_URL: ${service:payment-gateway:url}
+  - type: aws_s3_bucket
+    bucket_name: shared-assets
+    unmanaged:
+      permissions: read  # or write, read_write
 ```
 
 ## Summary
 
-Key takeaways from these concepts:
+Key takeaways:
 
-1. **Dependency Declaration**: Explicitly declare all external resources in the `dependencies` array
-2. **Access Modes**: Use the minimum required mode (read over read_write when possible)
-3. **IAM Generation**: FSD automatically creates least-privilege IAM policies
-4. **Database Dependencies**: Configure indexes, streams, and connection settings appropriately
-5. **Messaging Dependencies**: Set batch sizes, timeouts, and consumer groups correctly
-6. **Service Dependencies**: Enable service discovery for microservice communication
+1. **Managed vs Unmanaged**: Use managed when FSD should create the resource; use unmanaged for existing resources
+2. **Permission Levels**: Use the minimum required (read over read_write when possible)
+3. **IAM Generation**: FSD automatically creates least-privilege IAM policies from dependencies
+4. **Schema Requirements**: Managed DynamoDB tables require key_schema and attribute_definitions
 
-Well-configured dependencies are the foundation of secure, maintainable cloud services. Always prefer explicit declarations over implicit access.
+Well-configured dependencies are the foundation of secure, maintainable cloud services.

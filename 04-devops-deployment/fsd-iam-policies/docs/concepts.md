@@ -1,5 +1,22 @@
 # IAM Policy Concepts
 
+## FSD IAM Strategy
+
+**Primary approach**: Declare resources as dependencies and FSD auto-generates IAM policies.
+
+```yaml
+# FSD generates all needed IAM permissions from this
+dependencies:
+  - type: aws_dynamodb_table
+    table_name: users
+    unmanaged:
+      permissions: read_write
+```
+
+**Custom policies**: Use `iam.policy_statements` only for edge cases like cross-account access, specific conditions, or services FSD doesn't support as dependencies.
+
+---
+
 ## IAM Policy Structure
 
 Every IAM policy consists of statements with these elements:

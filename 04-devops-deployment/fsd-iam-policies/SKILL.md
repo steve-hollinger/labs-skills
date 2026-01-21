@@ -1,37 +1,43 @@
 ---
 name: creating-iam-policies
-description: Creates IAM policies for FSD services using least-privilege principles. Use when defining service permissions for AWS resources.
+description: IAM permissions for FSD services via dependencies and custom policy statements. Use when configuring service permissions for AWS resources.
 ---
 
 # FSD IAM Policies
 
 ## Quick Start
 ```yaml
-# In your FSD service YAML
+# Preferred: Use dependencies - FSD auto-generates IAM
+dependencies:
+  - type: aws_dynamodb_table
+    table_name: users
+    unmanaged:
+      permissions: read  # Generates GetItem, Query, Scan permissions
+
+# Advanced: Custom policy statements for edge cases
 iam:
   policy_statements:
-    - sid: ReadDynamoDB
+    - sid: CrossAccountAccess
       effect: Allow
       actions:
-        - dynamodb:GetItem
-        - dynamodb:Query
-        - dynamodb:Scan
+        - s3:GetObject
       resources:
-        - arn:aws:dynamodb:*:*:table/${TABLE_NAME}
-        - arn:aws:dynamodb:*:*:table/${TABLE_NAME}/index/*
+        - arn:aws:s3:::external-bucket/*
 ```
 
-
 ## Key Points
-- Always use least-privilege (minimum required permissions)
-- Use resource ARNs instead of wildcards when possible
-- Add conditions to restrict access scope
+- **Dependencies first**: Declare AWS resources as dependencies and FSD generates IAM policies
+- **Unmanaged permissions**: Use `unmanaged.permissions` (read, write, read_write) for existing resources
+- **Custom statements**: Use `iam.policy_statements` only for cross-account or special cases
 
 ## Common Mistakes
-1. **Using Action wildcards** - Specify exact actions needed
-2. **Missing index permissions** - DynamoDB indexes need separate resource ARNs
-3. **Forgetting condition keys** - Use conditions for fine-grained access control
+1. **Manual policies for managed deps** - Use dependencies instead of writing IAM manually
+2. **Wrong permission level** - Use `read` not `read_write` when only reading
+3. **Missing resource specificity** - Always use specific ARNs, not wildcards
 
 ## More Detail
-- [docs/concepts.md](docs/concepts.md) - IAM policy structure and best practices
-- [docs/patterns.md](docs/patterns.md) - Common policy patterns for FSD services
+- docs/concepts.md - How FSD generates IAM from dependencies
+- docs/patterns.md - Dependency patterns and custom policy examples
+
+## MCP Integration
+The FSD MCP server (`fsd-docs`) can validate FSD YAML and look up dependency schemas. Use `get_dependency_docs` to see what permissions each dependency type supports.
